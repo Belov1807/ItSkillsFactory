@@ -3,23 +3,31 @@ import java.util.*;
 /**
  * Класс загадонного числа.
  */
-public class BullsAndCowsNumeric
+public class BullsAndCowsHiddenNumeric
 {
     /**
      * Количество цифр.
      */
-    int numberCount;
+    byte numberCount;
 
     /**
-     * Число состоящее из цифр.
+     * Список цифр загаданного числа.
      */
-    ArrayList numeric = new ArrayList();
+    ArrayList numericList = new ArrayList();
+
+    /**
+     * Возвращает список цифр загаданного числа.
+     * @return список цифр загаданного числа.
+     */
+    public ArrayList getNumericList() {
+        return numericList;
+    }
 
     /**
      * Конструктор.
      * @param numberCount - количество цифр в числе.
      */
-    BullsAndCowsNumeric(int numberCount)
+    BullsAndCowsHiddenNumeric(byte numberCount)
     {
         this.numberCount = numberCount;
         createNumeric();
@@ -32,9 +40,9 @@ public class BullsAndCowsNumeric
     String getNumeric()
     {
         String strNumeric = new String();
-        for (int i = 0; i < numeric.size(); i ++)
+        for (int i = 0; i < numericList.size(); i ++)
         {
-            strNumeric += (numeric.get(i).toString());
+            strNumeric += (numericList.get(i).toString());
         }
         return strNumeric;
     }
@@ -47,13 +55,13 @@ public class BullsAndCowsNumeric
     {
         for (int i = 0; i < numberCount; i ++)
         {
-            int rand = (int)(Math.random() * 9);
+            byte rand = (byte)(Math.random() * 9);
 
-            while (numeric.contains(rand))
+            while (numericList.contains(rand))
             {
-                rand = (int)(Math.random() * 9);
+                rand = (byte)(Math.random() * 9);
             }
-            numeric.add(rand);
+            numericList.add(rand);
         }
     }
 }

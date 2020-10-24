@@ -1,4 +1,4 @@
-/* version = 0.3.0 */
+/* version = 0.4.0 */
 
 import java.util.Scanner;
 
@@ -7,12 +7,14 @@ import java.util.Scanner;
  */
 public class BullsAndCowsMain
 {
+    byte numberCount;
     /**
      * Конструктор.
      */
     BullsAndCowsMain()
     {
         startDialod();
+        guessingDialog();
     }
     /**
      * Первоначальный диалог с пользователем.
@@ -25,14 +27,14 @@ public class BullsAndCowsMain
 
         Scanner in = new Scanner(System.in);
 
-        int inputedValue = in.nextInt();
+        numberCount = in.nextByte();
 
-        if (inputedValue != difficultyLevel.LOW.getLevel() &&
-            inputedValue != difficultyLevel.MEDIUM.getLevel() &&
-            inputedValue != difficultyLevel.HARD.getLevel())
+        if (numberCount != difficultyLevel.LOW.getLevel() &&
+            numberCount != difficultyLevel.MEDIUM.getLevel() &&
+            numberCount != difficultyLevel.HARD.getLevel())
         {
             System.out.println(difficultyLevel.LOW.getLevel());
-            System.out.println(inputedValue);
+            System.out.println(numberCount);
 
             System.out.println("Вы ввели некорректное значение.");
             System.out.println("Осуществляется выход из игры.");
@@ -40,13 +42,30 @@ public class BullsAndCowsMain
         }
         else
         {
-            System.out.println("Вы выбрали ".concat(difficultyLevel.getDescription(inputedValue)));
+            System.out.println("Вы выбрали ".concat(difficultyLevel.getDescription(numberCount)));
 
-            BullsAndCowsNumeric numeric = new BullsAndCowsNumeric(inputedValue);
-            System.out.println(numeric.getNumeric());
+            BullsAndCowsHiddenNumeric numeric = new BullsAndCowsHiddenNumeric(numberCount);
+            System.out.println(numeric.getNumericList());
         }
     }
 
+    /**
+     * Диалог отгадывания числа.
+     */
+    public void guessingDialog()
+    {
+        System.out.println("Число загадано, попробуйте его отгадать.");
+        System.out.println("Введите число равное " + numberCount + " цифрам.");
+
+        Scanner in = new Scanner(System.in);
+
+        BullsAndCowsInputedNumeric numeric = new BullsAndCowsInputedNumeric(in.nextInt());
+        System.out.println(numeric.getInputedNumericList());
+
+        //numeric.checkInputedNumeric();
+        //System.out.println(numeric.bulls + " совпало, и они находятся на своем месте.");
+
+    }
     public static void main (String [] args)
     {
         new BullsAndCowsMain();
