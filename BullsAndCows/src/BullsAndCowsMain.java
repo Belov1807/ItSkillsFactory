@@ -1,16 +1,16 @@
-/* version = 0.1.0 */
+/* version = 0.2.0 */
 
 import java.util.Scanner;
 
 /**
  * Главный класс консольной версии игрового приложения "Быки и коровы".
  */
-public class BullsAndCows
+public class BullsAndCowsMain
 {
     /**
      * Конструктор.
      */
-    BullsAndCows()
+    BullsAndCowsMain()
     {
         startDialod();
     }
@@ -19,13 +19,12 @@ public class BullsAndCows
      */
     public void startDialod()
     {
-        int difficultyLevel;
         System.out.println("Добро пожаловать в игру \"Быки и коровы\" !\n");
         System.out.println("Правила игры: Вы должны угадать загаданное число.");
         System.out.println("Задайте сложность игры (3, 4 или 5).");
 
         Scanner in = new Scanner(System.in);
-        difficultyLevel = in.nextInt();
+        int difficultyLevel = in.nextInt();
 
         if (difficultyLevel < 3 | difficultyLevel > 5)
         {
@@ -50,11 +49,14 @@ public class BullsAndCows
             }
 
             System.out.println("Вы выбрали ".concat(strDifficultyLevel));
+
+            BullsAndCowsNumeric numeric = new BullsAndCowsNumeric(difficultyLevel);
+            System.out.println(numeric.getNumeric());
         }
     }
 
     public static void main (String [] args)
     {
-        new BullsAndCows();
+        new BullsAndCowsMain();
     }
 }
