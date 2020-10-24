@@ -1,4 +1,4 @@
-/* version = 0.2.0 */
+/* version = 0.3.0 */
 
 import java.util.Scanner;
 
@@ -24,33 +24,25 @@ public class BullsAndCowsMain
         System.out.println("Задайте сложность игры (3, 4 или 5).");
 
         Scanner in = new Scanner(System.in);
-        int difficultyLevel = in.nextInt();
 
-        if (difficultyLevel < 3 | difficultyLevel > 5)
+        int inputedValue = in.nextInt();
+
+        if (inputedValue != difficultyLevel.LOW.getLevel() &&
+            inputedValue != difficultyLevel.MEDIUM.getLevel() &&
+            inputedValue != difficultyLevel.HARD.getLevel())
         {
+            System.out.println(difficultyLevel.LOW.getLevel());
+            System.out.println(inputedValue);
+
             System.out.println("Вы ввели некорректное значение.");
             System.out.println("Осуществляется выход из игры.");
             return;
         }
         else
         {
-            String strDifficultyLevel = new String();
-            if (difficultyLevel == 3)
-            {
-                strDifficultyLevel = "самый легкий уровень: ***.";
-            }
-            if (difficultyLevel == 4)
-            {
-                strDifficultyLevel = "средний уровень сложности : ****.";
-            }
-            if (difficultyLevel == 5)
-            {
-                strDifficultyLevel = "самый сложный уровень: *****.";
-            }
+            System.out.println("Вы выбрали ".concat(difficultyLevel.getDescription(inputedValue)));
 
-            System.out.println("Вы выбрали ".concat(strDifficultyLevel));
-
-            BullsAndCowsNumeric numeric = new BullsAndCowsNumeric(difficultyLevel);
+            BullsAndCowsNumeric numeric = new BullsAndCowsNumeric(inputedValue);
             System.out.println(numeric.getNumeric());
         }
     }
