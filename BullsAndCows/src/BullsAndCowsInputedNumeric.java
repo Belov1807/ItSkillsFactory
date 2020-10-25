@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Класс числа введенного пользователем.
@@ -7,7 +8,7 @@ public class BullsAndCowsInputedNumeric {
     /**
      * Введенное пользователем число.
      */
-    int inputedNumeric;
+    int inputedNumeric = 0;
 
     /**
      * Список цифр введенных пользователем.
@@ -16,7 +17,6 @@ public class BullsAndCowsInputedNumeric {
 
     /**
      * Констуктор.
-     *
      * @param inputedNumeric - введенное пользователем число.
      */
     BullsAndCowsInputedNumeric(int inputedNumeric) {
@@ -38,7 +38,6 @@ public class BullsAndCowsInputedNumeric {
      */
     private void CreateInputedNumericList() {
         String strInputedNumeric = new String();
-
         strInputedNumeric += inputedNumeric;
 
         for (int i = 0; i < strInputedNumeric.length(); i++)

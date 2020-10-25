@@ -63,6 +63,7 @@ public class BullsAndCowsCompareNumerics
     {
         this.hiddenNumericList = hiddenNumericList;
         this.userNumericList = userNumericList;
+
         compareNumerics();
     }
 
@@ -75,9 +76,9 @@ public class BullsAndCowsCompareNumerics
         {
             if (hiddenNumericList.get(i) == userNumericList.get(i))
             {
-                 bulls ++;
+                bulls ++;
             }
-            if (userNumericList .contains(hiddenNumericList.get(i)) &&
+            if (userNumericList.contains(hiddenNumericList.get(i)) &&
                 userNumericList.get(i) != hiddenNumericList.get(i))
             {
                 cows ++;
