@@ -44,7 +44,7 @@ public class BullsAndCowsInputedNumeric {
         for (int i = 0; i < strInputedNumeric.length(); i++)
         {
             strInputedNumeric.charAt(i);
-            byte inputNumericElement = (byte) strInputedNumeric.charAt(i);
+            int inputNumericElement = (int) strInputedNumeric.charAt(i);
 
             inputedNumericList.add(inputNumericElement - 48);
         }

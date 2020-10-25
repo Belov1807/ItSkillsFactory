@@ -1,14 +1,14 @@
 import java.util.*;
 
 /**
- * Класс загадонного числа.
+ * Класс загаданного числа.
  */
 public class BullsAndCowsHiddenNumeric
 {
     /**
      * Количество цифр.
      */
-    byte numberCount;
+    int numberCount;
 
     /**
      * Список цифр загаданного числа.
@@ -55,11 +55,11 @@ public class BullsAndCowsHiddenNumeric
     {
         for (int i = 0; i < numberCount; i ++)
         {
-            byte rand = (byte)(Math.random() * 9);
+            int rand = (int)(Math.random() * 9);
 
             while (numericList.contains(rand))
             {
-                rand = (byte)(Math.random() * 9);
+                rand = (int)(Math.random() * 9);
             }
             numericList.add(rand);
         }

@@ -1,4 +1,4 @@
-/* version = 0.4.0 */
+/* version = 0.5.0 */
 
 import java.util.Scanner;
 
@@ -7,7 +7,15 @@ import java.util.Scanner;
  */
 public class BullsAndCowsMain
 {
+    /**
+     * Количество цифр в числе заданное пользователем при выборе уровня сложности.
+     */
     byte numberCount;
+
+    /**
+     * Введенное пользователем число.
+     */
+    int inputedNumeric;
     /**
      * Конструктор.
      */
@@ -43,9 +51,6 @@ public class BullsAndCowsMain
         else
         {
             System.out.println("Вы выбрали ".concat(difficultyLevel.getDescription(numberCount)));
-
-            BullsAndCowsHiddenNumeric numeric = new BullsAndCowsHiddenNumeric(numberCount);
-            System.out.println(numeric.getNumericList());
         }
     }
 
@@ -57,14 +62,42 @@ public class BullsAndCowsMain
         System.out.println("Число загадано, попробуйте его отгадать.");
         System.out.println("Введите число равное " + numberCount + " цифрам.");
 
-        Scanner in = new Scanner(System.in);
+        BullsAndCowsHiddenNumeric hiddenNumeric = new BullsAndCowsHiddenNumeric(numberCount);
 
-        BullsAndCowsInputedNumeric numeric = new BullsAndCowsInputedNumeric(in.nextInt());
-        System.out.println(numeric.getInputedNumericList());
+        guessingProcess(hiddenNumeric);
+        System.out.println("Поздравляем Вы победили!" );
+        System.out.println("Загаданное число действительно " + hiddenNumeric.getNumeric());
+    }
 
-        //numeric.checkInputedNumeric();
-        //System.out.println(numeric.bulls + " совпало, и они находятся на своем месте.");
+    /**
+     * Процесс угадывания числа.
+     * @param hiddenNumeric - загаданное число.
+     */
+    public void guessingProcess(BullsAndCowsHiddenNumeric hiddenNumeric)
+    {
+        boolean win = false;
 
+        while (win == false)
+        {
+            Scanner in = new Scanner(System.in);
+            inputedNumeric = in.nextInt();
+
+            BullsAndCowsInputedNumeric userNumeric = new BullsAndCowsInputedNumeric(inputedNumeric);
+            BullsAndCowsCompareNumerics compare = new BullsAndCowsCompareNumerics(
+                    hiddenNumeric.getNumericList(), userNumeric.getInputedNumericList());
+
+            win = compare.isWin();
+
+            if (win == false)
+            {
+                System.out.println("К сожалению Вы не угадали загаданное число.");
+                System.out.println("В введенном Вами числе:");
+                System.out.println(compare.getBulls() + " цифр(ы) находятся на правильных позициях.");
+                System.out.println(compare.getCows() + " цифр(ы) находядятся на не правильных позициях.\n");
+
+                System.out.println("Попробуйте еще раз. Введите число равное " + numberCount + " цифрам.");
+            }
+        }
     }
     public static void main (String [] args)
     {
