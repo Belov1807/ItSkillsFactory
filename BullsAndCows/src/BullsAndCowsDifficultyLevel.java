@@ -1,7 +1,7 @@
 /**
  * Уровни сложности игры.
  */
-public enum difficultyLevel
+public enum BullsAndCowsDifficultyLevel
 {
     LOW(3, "самый легкий уровень: ***."),           /**< Самый легкий уровень.*/
     MEDIUM(4, "средний уровень сложности : ****."), /**< Средний уровень сложности.*/
@@ -59,10 +59,23 @@ public enum difficultyLevel
      * @param level - введенное пользователем значение.
      * @param description - описание уровня.
      */
-    difficultyLevel(int level, String description)
+    private BullsAndCowsDifficultyLevel(int level, String description)
     {
         this.level = level;
         this.description = description;
     }
+
+    public boolean isValidInputedValue (int inputedValue)
+    {
+        if (inputedValue != LOW.getLevel() &&
+            inputedValue != MEDIUM.getLevel() &&
+            inputedValue != HARD.getLevel())
+        {
+            return false;
+        }
+        return  true;
+    }
+
+
 }
 

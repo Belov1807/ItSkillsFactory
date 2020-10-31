@@ -1,4 +1,4 @@
-/* version = 0.6.0 */
+/* version = 0.7.0 */
 
 import java.util.Scanner;
 
@@ -10,17 +10,17 @@ public class BullsAndCowsMain
     /**
      * Количество цифр в числе заданное пользователем при выборе уровня сложности.
      */
-    byte numberCount = 0;
+    private byte numberCount = 0;
 
     /**
      * Введенное пользователем число.
      */
-    int inputedNumeric = 0;
+    private int inputedNumeric = 0;
 
     /**
      * Количество попыток отгадать число.
      */
-    int attemptsCount = 0;
+    private int attemptsCount = 0;
 
     /**
      * Конструктор.
@@ -42,20 +42,15 @@ public class BullsAndCowsMain
         Scanner in = new Scanner(System.in);
         numberCount = in.nextByte();
 
-        if (numberCount != difficultyLevel.LOW.getLevel() &&
-            numberCount != difficultyLevel.MEDIUM.getLevel() &&
-            numberCount != difficultyLevel.HARD.getLevel())
+        if (BullsAndCowsDifficultyLevel.HARD.isValidInputedValue(numberCount) == false)
         {
-            System.out.println(difficultyLevel.LOW.getLevel());
-            System.out.println(numberCount);
-
             System.out.println("Вы ввели некорректное значение.");
             System.out.println("Осуществляется выход из игры.");
             System.exit(0);
         }
         else
         {
-            System.out.println("Вы выбрали ".concat(difficultyLevel.getDescription(numberCount)));
+            System.out.println("Вы выбрали ".concat(BullsAndCowsDifficultyLevel.getDescription(numberCount)));
         }
     }
 
