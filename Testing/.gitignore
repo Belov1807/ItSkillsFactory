@@ -1,1 +1,90 @@
 
+# Создано https://www.toptal.com/developers/gitignore/api/intellij+iml
+# Отредактируйте на https://www.toptal.com/developers/gitignore?templates=intellij+iml
+
+### Intellij + iml ###
+# Охватывает IDE JetBrains: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm и Rider
+# Ссылка: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# Пользовательские вещи
+.idea / ** / workspace.xml
+.idea / ** / tasks.xml
+.idea / ** / usage.statistics.xml
+.idea / ** / словари
+.idea / ** / полка
+
+# Сгенерированные файлы
+.idea / ** / contentModel.xml
+
+# Конфиденциальные файлы или файлы с большим оттоком
+.idea / ** / dataSources /
+.idea / ** / dataSources.ids
+.idea / ** / dataSources.local.xml
+.idea / ** / sqlDataSources.xml
+.idea / ** / dynamic.xml
+.idea / ** / uiDesigner.xml
+.idea / ** / dbnavigator.xml
+
+# Gradle
+.idea / ** / gradle.xml
+.idea / ** / библиотеки
+
+# Gradle и Maven с автоматическим импортом
+# При использовании Gradle или Maven с автоматическим импортом следует исключить файлы модулей,
+# так как они будут созданы заново и могут вызвать отток. Раскомментируйте при использовании
+# автоматический импорт.
+# .idea / artifacts
+# .idea / compiler.xml
+# .idea / jarRepositories.xml
+# .idea / modules.xml
+# .idea / *. iml
+# .idea / modules
+# * .iml
+# * .ipr
+
+# CMake
+cmake-build - * /
+
+# Плагин Mongo Explorer
+.idea / ** / mongoSettings.xml
+
+# Файловый формат проекта
+* .iws
+*.iml
+# IntelliJ
+вне/
+
+# mpeltonen / sbt-idea плагин
+.idea_modules /
+
+# Плагин JIRA
+atlassian-ide-plugin.xml
+
+# Плагин Cursive Clojure
+.idea / replstate.xml
+
+# Плагин Crashlytics (для Android Studio и IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+ткань. свойства
+
+# Клиент Rest на основе редактора
+.idea / httpRequests
+
+# Android studio 3.1+ сериализованный файл кеша
+.idea / caches / build_file_checksums.ser
+
+### Intellij + iml Patch ###
+# Причина: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
+
+* .iml
+modules.xml
+.idea / misc.xml
+* .ipr
+
+# Dir
+out/
+.idea/
+
+# Конец https://www.toptal.com/developers/gitignore/api/intellij+iml
