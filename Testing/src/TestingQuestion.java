@@ -13,15 +13,22 @@ public class TestingQuestion
     /**
      * Идентификатор варианта ответа.
      */
-    private int idAnswerOptions = 1;
+    private int idAnswerOptions = 0;
+
     /**
      * Текст вопроса.
      */
-    private String text;
+    private String textQuestion;
+
     /**
      * Список вариантов ответа.
      */
     ArrayList<String> answerOptionsList = new ArrayList<String>();
+    /**
+     * Список правильных вариантов ответа.
+     */
+    ArrayList<String> rightAnswerOptionsList = new ArrayList<String>();
+
     /**
      * Тип вопроса.                                                                                                                                                                                                                                             
      */
@@ -35,11 +42,11 @@ public class TestingQuestion
      */
     private TestingUser author;
 
-    TestingQuestion(String text, TestingTypesOfQuestion type,
-                   TestingComplexityOfTheQuestion complexity,
-                                          TestingUser author)
+    TestingQuestion(String textQuestion, TestingTypesOfQuestion type,
+                    TestingComplexityOfTheQuestion complexity,
+                    TestingUser author)
     {
-        this.text = text;
+        this.textQuestion = textQuestion;
         this.type = type;
         this.complexity = complexity;
         this.author = author;
@@ -51,32 +58,69 @@ public class TestingQuestion
      * Добавляет вариант ответа.
      * @param answerOption - вариант ответа.
      */
-    public void addAnswerOption(String answerOption)
+    public void addAnswerOption(boolean isRightAnswerOptionThis, String answerOption)
     {
         answerOptionsList.add(answerOption);
-        idAnswerOptions ++;
 
-                Collections.shuffle(answerOptionsList);
+        if (isRightAnswerOptionThis == true)
+        {
+            rightAnswerOptionsList.add(answerOption);
 
+            idAnswerOptions ++;
+        }
+
+        // Перемешивает список вариантов ответа.
+        Collections.shuffle(answerOptionsList);
     }
 
-    public int getIdAnswerOptions()
+    /**
+     * Добавляет вариант ответа.
+     * @param answerOption - вариант ответа.
+     */
+    public void addAnswerOption(String answerOption)
     {
-        return idAnswerOptions;
+        addAnswerOption(false, answerOption);
     }
 
+    /**
+     * Возвращает идентификатор вопроса.
+     * @return идентификатор вопроса.
+     */
     public static int getIdQuestion()
     {
         return idQuestion;
     }
 
-    public String getText()
+    /**
+     * Возвращает текст вопроса.
+     * @return текст вопроса.
+     */
+    public String getTextQuestion()
     {
-        return text;
+        return textQuestion;
     }
 
     public ArrayList<String> getAnswerOptionsList()
     {
         return answerOptionsList;
+    }
+
+    /**
+     * Возвращает вариант ответа по индексу.
+     * @param index - индекс.
+     * @return вариант ответа.
+     */
+    public String getAnswerOption(int index)
+    {
+        return answerOptionsList.get(index);
+    }
+
+    /**
+     * Возвращает список правильных вариантов ответа.
+     * @return список правильных вариантов ответа.
+     */
+    public ArrayList<String> getRightAnswerOptionsList()
+    {
+        return rightAnswerOptionsList;
     }
 }

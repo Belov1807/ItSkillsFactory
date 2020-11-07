@@ -11,7 +11,27 @@ public class TestingTheTest
      */
     public ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
 
+    /**
+     * Конструктор.
+     */
     public TestingTheTest()
+    {
+        createQuestionList();
+    }
+
+    /**
+     * Возвращает список вопросов.
+     * @return список вопросов.
+     */
+    public ArrayList<TestingQuestion> getQuestionsList()
+    {
+        return questionsList;
+    }
+
+    /**
+     * Создает список вопросов.
+     */
+    public void createQuestionList()
     {
         TestingUser user = new TestingUser();
 
@@ -20,8 +40,8 @@ public class TestingTheTest
         TestingQuestion question = new TestingQuestion(textQuestion,TestingTypesOfQuestion.SINGLE_TRUE_OPTION,
                 TestingComplexityOfTheQuestion.LOW, user);
 
-        question.addAnswerOption("Объектно-ориентированное программирование —  методология" +
-                "программирования основанная на представлении программы в виде совокупности объектов, " +
+        question.addAnswerOption(true, "Объектно-ориентированное программирование — " +
+                "методология программирования основанная на представлении программы в виде совокупности объектов, " +
                 "каждый из которых является экземпляром определенного класса, " +
                 "а классы образуют иерархию наследования.");
         question.addAnswerOption("Объектно-ориентированное программирование — " +
@@ -37,14 +57,14 @@ public class TestingTheTest
         //Вопрос № 2
         textQuestion = new String("Что такое класс в Java ?");
 
-        question = new TestingQuestion(textQuestion,TestingTypesOfQuestion.SINGLE_TRUE_OPTION,
+        question = new TestingQuestion(textQuestion,TestingTypesOfQuestion.MULTIPLE_TRUE_OPTIONS,
                 TestingComplexityOfTheQuestion.LOW, user);
 
         question.addAnswerOption("Уровень сложности программы. " +
                 "Все операторы делятся на классы в зависимости от сложности их использования.");
-        question.addAnswerOption("Базовым элементом объектно-ориентированного " +
+        question.addAnswerOption(true, "Базовый элемент объектно-ориентированного " +
                 "программирования в языке Java.");
-        question.addAnswerOption("Просто одно из возможных названий переменной.");
+        question.addAnswerOption(true,"Просто одно из возможных названий переменной.");
         question.addAnswerOption("Такое понятие есть только в C++, в Java такого понятия нет.");
 
         questionsList.add(question);
@@ -176,15 +196,7 @@ public class TestingTheTest
 
         questionsList.add(question);
 
+        // Перемешивает список вопросов.
         Collections.shuffle(questionsList);
-     }
-
-    /**
-     * Возвращает список вопросов.
-     * @return список вопросов.
-     */
-    public ArrayList<TestingQuestion> getQuestionsList()
-    {
-        return questionsList;
     }
 }
