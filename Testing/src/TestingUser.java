@@ -55,8 +55,6 @@ public class TestingUser implements TestingUserService {
      */
     public TestingUser()
     {
-        System.out.println("Здравствуйте! Добро пожаловать в приложение по тестированию!");
-        selectActionInSystem();
     }
 
     /**
@@ -108,6 +106,9 @@ public class TestingUser implements TestingUserService {
         {
             System.out.println("Вход выполнен.");
             System.out.println("Вы вошли в систему как " + name);
+
+            TestingTakingTheTest takingTheTest = new TestingTakingTheTest();
+
             logout();
         }
         else
@@ -167,7 +168,8 @@ public class TestingUser implements TestingUserService {
     /**
      * Выбор пользователем действия в системе.
      */
-    private void selectActionInSystem()
+    @Override
+    public void selectActionInSystem()
     {
         System.out.println("Если Вы хотите войти в систему введите \"Вход\"");
         System.out.println("Если Вы хотите зарегистрироваться в системе введите \"Регистрация\"");

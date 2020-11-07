@@ -4,6 +4,11 @@
 public interface TestingUserService
 {
     /**
+     * Выбор пользователем действия в системе.
+     */
+    public void selectActionInSystem();
+
+    /**
      * Регистрация пользователя.
      */
     public void register();
