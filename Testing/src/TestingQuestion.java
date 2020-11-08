@@ -123,4 +123,13 @@ public class TestingQuestion
     {
         return rightAnswerOptionsList;
     }
+
+    /**
+     * Возвращает тип вопроса.
+     * @return тип вопроса.
+     */
+    public TestingTypesOfQuestion getType()
+    {
+        return type;
+    }
 }

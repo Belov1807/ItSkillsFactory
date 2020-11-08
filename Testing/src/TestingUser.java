@@ -109,7 +109,6 @@ public class TestingUser implements TestingUserService {
             System.out.println("Вход выполнен.");
             System.out.println("Вы вошли в систему как " + name);
 
-
             logout();
         }
         else
