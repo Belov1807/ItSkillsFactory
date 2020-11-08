@@ -43,7 +43,7 @@ public class TestingTakingTheTest
             {
                 System.out.println("\nВариант № " + (j + 1));
 
-                System.out.println(question.getAnswerOption(j));
+                System.out.println("- " + question.getAnswerOption(j));
             }
 
             System.out.println("Введите правильный вариант ответа.");
@@ -60,20 +60,34 @@ public class TestingTakingTheTest
                 isValidInputedValue(userAnswerOption);
             }
 
+            boolean rightAnswerOption = false;
+
             for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
             {
-                for (int k = 0; k < inputedValueElementList.size(); k ++)
+                if (inputedValueElementList.contains(question.getAnswerOptionsList().indexOf(
+                        question.getRightAnswerOptionsList().get(j)) + 1))
                 {
-                    if (question.getRightAnswerOptionsList().contains(question.getAnswerOption(inputedValueElementList.get(k) - 1)))
-                    {
-                        System.out.println("Ответ верный");
-                        break;
-                    }
-                    else
-                    {
-                        System.out.println("Ответ неверный");
-                        break;
-                    }
+                    rightAnswerOption = true;
+                }
+                else
+                {
+                    rightAnswerOption = false;
+                    break;
+                }
+            }
+
+            if (rightAnswerOption == true)
+            {
+                System.out.println("Правильный ответ");
+            }
+            else
+            {
+                System.out.println("Ответ неверный");
+                System.out.println("Правильный ответ:");
+
+                for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
+                {
+                    System.out.println("\n- " + question.getRightAnswerOptionsList().get(j));
                 }
             }
             System.out.println("---------------------------------");
@@ -98,9 +112,11 @@ public class TestingTakingTheTest
 
         for (int j = 0; j < inputedValueCount; j ++)
         {
+            //Каждый второй введенный символ
             if (j % 2 != 0)
             {
-                if (inputedValue.charAt(j) != ',')
+                if (inputedValue.charAt(j) != ',' ||
+                    inputedValue.charAt(inputedValueCount - 1) == ',')
                 {
                     return false;
                 }
@@ -109,7 +125,9 @@ public class TestingTakingTheTest
             {
                 int inputedValueElement = (int)inputedValue.charAt(j) - 48;
 
-                if (inputedValueElement <1 || inputedValueElement > answerOptionsCount)
+                if (inputedValueElement <1 ||
+                    inputedValueElement > answerOptionsCount  ||
+                    inputedValueElementList.contains(inputedValueElement))
                 {
                     return false;
                 }

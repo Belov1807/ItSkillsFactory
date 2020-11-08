@@ -104,10 +104,10 @@ public class TestingUser implements TestingUserService {
 
         if (isUserExists() == true)
         {
-            TestingTakingTheTest takingTheTest = new TestingTakingTheTest();
-
             System.out.println("Вход выполнен.");
             System.out.println("Вы вошли в систему как " + name);
+
+            TestingTakingTheTest takingTheTest = new TestingTakingTheTest();
 
             logout();
         }

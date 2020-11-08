@@ -37,14 +37,14 @@ public class TestingTheTest
 
         //Вопрос № 1
         String textQuestion = new String("Что такое ООП ?");
-        TestingQuestion question = new TestingQuestion(textQuestion,TestingTypesOfQuestion.SINGLE_TRUE_OPTION,
+        TestingQuestion question = new TestingQuestion(textQuestion,TestingTypesOfQuestion.MULTIPLE_TRUE_OPTIONS,
                 TestingComplexityOfTheQuestion.LOW, user);
 
         question.addAnswerOption(true, "Объектно-ориентированное программирование — " +
                 "методология программирования основанная на представлении программы в виде совокупности объектов, " +
                 "каждый из которых является экземпляром определенного класса, " +
                 "а классы образуют иерархию наследования.");
-        question.addAnswerOption("Объектно-ориентированное программирование — " +
+        question.addAnswerOption( "Объектно-ориентированное программирование — " +
                 "так называют любой тип программирования, в котором используются понятия высокого уровня и, " +
                 "в отличие от Assembler, в котором не работают напрямую с ячейками памяти ПК.");
         question.addAnswerOption("Объектно-ориентированное программирование — просто красивое понятие. " +
@@ -64,7 +64,7 @@ public class TestingTheTest
                 "Все операторы делятся на классы в зависимости от сложности их использования.");
         question.addAnswerOption(true, "Базовый элемент объектно-ориентированного " +
                 "программирования в языке Java.");
-        question.addAnswerOption(true,"Просто одно из возможных названий переменной.");
+        question.addAnswerOption("Просто одно из возможных названий переменной.");
         question.addAnswerOption("Такое понятие есть только в C++, в Java такого понятия нет.");
 
         questionsList.add(question);

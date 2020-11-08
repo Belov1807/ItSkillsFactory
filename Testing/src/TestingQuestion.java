@@ -100,6 +100,10 @@ public class TestingQuestion
         return textQuestion;
     }
 
+    /**
+     * Возвращает список вариантов ответа.
+     * @return список вариантов ответа.
+     */
     public ArrayList<String> getAnswerOptionsList()
     {
         return answerOptionsList;
@@ -132,4 +136,6 @@ public class TestingQuestion
     {
         return type;
     }
+
+
 }
