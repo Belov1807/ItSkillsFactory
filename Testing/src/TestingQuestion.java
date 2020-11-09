@@ -18,16 +18,16 @@ public class TestingQuestion
     /**
      * Текст вопроса.
      */
-    private String textQuestion;
+    private String textQuestion = new String();
 
     /**
      * Список вариантов ответа.
      */
-    ArrayList<String> answerOptionsList = new ArrayList<String>();
+    private ArrayList<String> answerOptionsList = new ArrayList<String>();
     /**
      * Список правильных вариантов ответа.
      */
-    ArrayList<String> rightAnswerOptionsList = new ArrayList<String>();
+    private ArrayList<String> rightAnswerOptionsList = new ArrayList<String>();
 
     /**
      * Тип вопроса.                                                                                                                                                                                                                                             
@@ -42,12 +42,12 @@ public class TestingQuestion
      */
     private TestingUser author;
 
-    TestingQuestion(String textQuestion, TestingTypesOfQuestion type,
+    TestingQuestion(String textQuestion, /*TestingTypesOfQuestion type,*/
                     TestingComplexityOfTheQuestion complexity,
                     TestingUser author)
     {
         this.textQuestion = textQuestion;
-        this.type = type;
+//        this.type = type;
         this.complexity = complexity;
         this.author = author;
 
@@ -61,12 +61,24 @@ public class TestingQuestion
     public void addAnswerOption(boolean isRightAnswerOptionThis, String answerOption)
     {
         answerOptionsList.add(answerOption);
+        idAnswerOptions ++;
 
         if (isRightAnswerOptionThis == true)
         {
             rightAnswerOptionsList.add(answerOption);
+            if (rightAnswerOptionsList.size() > 1)
+            {
+                type = TestingTypesOfQuestion.MULTIPLE_RIGHT_OPTIONS;
+            }
+            else
+            {
+                type = TestingTypesOfQuestion.SINGLE_RIGHT_OPTION;
+            }
 
-            idAnswerOptions ++;
+        }
+        if (answerOptionsList.size() == 1)
+        {
+            type = TestingTypesOfQuestion.OPENING_QUESTION;
         }
 
         // Перемешивает список вариантов ответа.
@@ -137,5 +149,12 @@ public class TestingQuestion
         return type;
     }
 
-
+    /**
+     * Возвращает сложность вопроса.
+     * @return сложность вопроса.
+     */
+    public TestingComplexityOfTheQuestion getComplexity()
+    {
+        return complexity;
+    }
 }

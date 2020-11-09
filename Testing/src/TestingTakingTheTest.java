@@ -7,9 +7,14 @@ import java.util.Scanner;
 public class TestingTakingTheTest
 {
     /**
+     * Вопрос.
+     */
+    private TestingQuestion question;
+
+    /**
      * Количество вариантов ответа.
      */
-    private int answerOptionsCount;
+    private int answerOptionsCount = 0;
 
     /**
      * Список введенных пользователем вариантов ответа.
@@ -31,54 +36,72 @@ public class TestingTakingTheTest
     {
         TestingTheTest test = new TestingTheTest();
 
+        int userScores = 0;
+
         for (int i = 0; i < test.getQuestionsList().size(); i ++)
         {
-            TestingQuestion question = test.getQuestionsList().get(i);
+            question = test.getQuestionsList().get(i);
 
             System.out.println("\nВопрос № " + (i + 1));
             System.out.println(question.getTextQuestion());
 
-            answerOptionsCount = question.getAnswerOptionsList().size();
-            for (int j = 0; j < answerOptionsCount; j ++)
-            {
-                System.out.println("\nВариант № " + (j + 1));
-
-                System.out.println("- " + question.getAnswerOption(j));
-            }
-
-            System.out.println("Введите правильный вариант ответа.");
-            Scanner in = new Scanner(System.in);
-            String userAnswerOption = in.nextLine();
-
-            while(!isValidInputedValue(userAnswerOption))
-            {
-                System.out.println("Некорректный ввод");
-                System.out.println(question.getType().getDescription());
-
-                in = new Scanner(System.in);
-                userAnswerOption = in.nextLine();
-                isValidInputedValue(userAnswerOption);
-            }
-
+            String userAnswerOption = new String();
             boolean rightAnswerOption = false;
 
-            for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
+
+            if (question.getType() != TestingTypesOfQuestion.OPENING_QUESTION)
             {
-                if (inputedValueElementList.contains(question.getAnswerOptionsList().indexOf(
-                        question.getRightAnswerOptionsList().get(j)) + 1))
+                answerOptionsCount = question.getAnswerOptionsList().size();
+                for (int j = 0; j < answerOptionsCount; j ++)
+                {
+                    System.out.println("\nВариант № " + (j + 1));
+
+                    System.out.println("- " + question.getAnswerOption(j));
+                }
+
+                System.out.println("Введите правильный вариант ответа.");
+                Scanner in = new Scanner(System.in);
+                userAnswerOption = in.nextLine();
+
+                while (!isValidInputedValue(userAnswerOption))
+                {
+                    System.out.println("Некорректный ввод");
+                    System.out.println(question.getType().getDescription());
+
+                    in = new Scanner(System.in);
+                    userAnswerOption = in.nextLine();
+                    isValidInputedValue(userAnswerOption);
+                }
+
+                for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
+                {
+                    if (inputedValueElementList.contains(question.getAnswerOptionsList().indexOf(
+                            question.getRightAnswerOptionsList().get(j)) + 1))
+                    {
+                        rightAnswerOption = true;
+                    }
+                    else
+                    {
+                        rightAnswerOption = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("Введите правильный вариант ответа.");
+                Scanner in = new Scanner(System.in);
+                userAnswerOption = in.nextLine();
+
+                if (question.getRightAnswerOptionsList().contains(userAnswerOption))
                 {
                     rightAnswerOption = true;
                 }
-                else
-                {
-                    rightAnswerOption = false;
-                    break;
-                }
             }
-
             if (rightAnswerOption == true)
             {
                 System.out.println("Правильный ответ");
+                userScores += question.getComplexity().getScore();
             }
             else
             {
@@ -92,6 +115,8 @@ public class TestingTakingTheTest
             }
             System.out.println("---------------------------------");
         }
+        System.out.println("Тест завершен!");
+        System.out.println("Вы набрали " + userScores + " баллов(а) из " + test.getAllScores());
     }
 
     /**
@@ -105,7 +130,9 @@ public class TestingTakingTheTest
 
         inputedValueElementList.clear();
 
-        if(inputedValueCount > answerOptionsCount*2 -1)
+        if(inputedValueCount > answerOptionsCount*2 -1 ||
+           inputedValueCount > question.getType().getMaxRightAnswerOptionsCount() ||
+           inputedValueCount < question.getType().getMinRightAnswerOptionsCount())
         {
             return false;
         }
