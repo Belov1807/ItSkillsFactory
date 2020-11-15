@@ -7,17 +7,17 @@ public enum TestingTypesOfQuestion
      * Вопрос с единственным правильным ответом.
      */
     SINGLE_RIGHT_OPTION(1,1,"Вопрос с единственным правильным ответом",
-            "Введите номер правильного ответа"),
+            "\nВведите номер правильного варианта ответа"),
     /**
      * Вопрос с множественными правильными ответами.
      */
     MULTIPLE_RIGHT_OPTIONS(2,9,"Вопрос с множественными правильными ответами",
-            "Введите номера всех правильных вариантов ответа через запятую"),
+            "\nВведите номера всех правильных вариантов ответа через запятую"),
     /** Вопрос с множественными правильными ответами */
     /**
      * Открытый вопрос.
      */
-    OPENING_QUESTION(1,1,"Открытый вопрос", "Введите ответ на вопрос");
+    OPENING_QUESTION(1,1,"Открытый вопрос", "\nВведите ответ на вопрос");
 
     /**
      * Минимальное количество правильных вариантов ответа.
@@ -32,28 +32,27 @@ public enum TestingTypesOfQuestion
      */
     private String type = new String();
     /**
-     * Описание вида вопроса.
+     * Информация для пользователя.
      */
-    private String description = new String();
+    private String userInfo = new String();
 
     /**
      * Конструктор.
      * @param minRightAnswerOptionsCount - Минимальное количество правильных вариантов ответа.
      * @param maxRightAnswerOptionsCount - Максимальное количество правильных вариантов ответа.
      * @param type - вид вопроса.
-     * @param description - описание вида вопроса.
+     * @param userInfo - информация для пользователя.
      */
     private TestingTypesOfQuestion(int minRightAnswerOptionsCount,
                                    int maxRightAnswerOptionsCount,
                                                       String type,
-                                               String description)
+                                                  String userInfo)
     {
         this.minRightAnswerOptionsCount = minRightAnswerOptionsCount;
         this.maxRightAnswerOptionsCount = maxRightAnswerOptionsCount;
         this.type = type;
-        this.description = description;
+        this.userInfo = userInfo;
     }
-
 
     /**
      * Возвращает вид вопроса.
@@ -64,12 +63,12 @@ public enum TestingTypesOfQuestion
         return type;
     }
     /**
-     * Возвращает описание вида вопроса.
-     * @return описание вида вопроса.
+     * Возвращает информация для пользователя.
+     * @return информация для пользователя
      */
-    public String getDescription()
+    public String getUserInfo()
     {
-        return description;
+        return userInfo;
     }
 
     /**

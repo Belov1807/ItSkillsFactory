@@ -18,7 +18,7 @@ public class TestingQuestion
     /**
      * Текст вопроса.
      */
-    private String textQuestion = new String();
+    private String questionText = new String();
 
     /**
      * Список вариантов ответа.
@@ -42,12 +42,11 @@ public class TestingQuestion
      */
     private TestingUser author;
 
-    TestingQuestion(String textQuestion, /*TestingTypesOfQuestion type,*/
+    TestingQuestion(String questionText,
                     TestingComplexityOfTheQuestion complexity,
                     TestingUser author)
     {
-        this.textQuestion = textQuestion;
-//        this.type = type;
+        this.questionText = questionText;
         this.complexity = complexity;
         this.author = author;
 
@@ -66,20 +65,9 @@ public class TestingQuestion
         if (isRightAnswerOptionThis == true)
         {
             rightAnswerOptionsList.add(answerOption);
-            if (rightAnswerOptionsList.size() > 1)
-            {
-                type = TestingTypesOfQuestion.MULTIPLE_RIGHT_OPTIONS;
-            }
-            else
-            {
-                type = TestingTypesOfQuestion.SINGLE_RIGHT_OPTION;
-            }
+        }
 
-        }
-        if (answerOptionsList.size() == 1)
-        {
-            type = TestingTypesOfQuestion.OPENING_QUESTION;
-        }
+        setTypeOfQuestion();
 
         // Перемешивает список вариантов ответа.
         Collections.shuffle(answerOptionsList);
@@ -95,6 +83,25 @@ public class TestingQuestion
     }
 
     /**
+     * Устанавливает тип вопроса.
+     */
+    private void setTypeOfQuestion()
+    {
+        if (rightAnswerOptionsList.size() > 1)
+        {
+            type = TestingTypesOfQuestion.MULTIPLE_RIGHT_OPTIONS;
+        }
+        else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() != 1)
+        {
+            type = TestingTypesOfQuestion.SINGLE_RIGHT_OPTION;
+        }
+        else
+        {
+            type = TestingTypesOfQuestion.OPENING_QUESTION;
+        }
+    }
+
+    /**
      * Возвращает идентификатор вопроса.
      * @return идентификатор вопроса.
      */
@@ -107,9 +114,9 @@ public class TestingQuestion
      * Возвращает текст вопроса.
      * @return текст вопроса.
      */
-    public String getTextQuestion()
+    public String getQuestionText()
     {
-        return textQuestion;
+        return questionText;
     }
 
     /**

@@ -34,7 +34,28 @@ public class TestingTakingTheTest
      */
     private void outQuestionsList()
     {
-        TestingTheTest test = new TestingTheTest();
+        TestingTheTest test;
+        System.out.println("Выберите источник загрузки теста:");
+        System.out.println("1. Из XML - файла;");
+        System.out.println("2. Из кода.");
+
+        test = new TestingTheTest();
+
+        Scanner in = new Scanner(System.in);
+        int sourceLoadTest = in.nextInt();
+
+        if (sourceLoadTest == 1)
+        {
+            System.out.println("Укажите путь к xml - файлу.");
+            in = new Scanner(System.in);
+            String xmlFilePath = in.nextLine();
+
+            test = new TestingTheTest(xmlFilePath);
+        }
+        else if (sourceLoadTest == 2)
+        {
+            test = new TestingTheTest();
+        }
 
         int userScores = 0;
 
@@ -43,11 +64,10 @@ public class TestingTakingTheTest
             question = test.getQuestionsList().get(i);
 
             System.out.println("\nВопрос № " + (i + 1));
-            System.out.println(question.getTextQuestion());
+            System.out.println(question.getQuestionText());
 
             String userAnswerOption = new String();
             boolean rightAnswerOption = false;
-
 
             if (question.getType() != TestingTypesOfQuestion.OPENING_QUESTION)
             {
@@ -59,14 +79,15 @@ public class TestingTakingTheTest
                     System.out.println("- " + question.getAnswerOption(j));
                 }
 
-                System.out.println("Введите правильный вариант ответа.");
-                Scanner in = new Scanner(System.in);
+                System.out.println(question.getType().getUserInfo());
+
+                in = new Scanner(System.in);
                 userAnswerOption = in.nextLine();
 
                 while (!isValidInputedValue(userAnswerOption))
                 {
                     System.out.println("Некорректный ввод");
-                    System.out.println(question.getType().getDescription());
+                    System.out.println(question.getType().getUserInfo());
 
                     in = new Scanner(System.in);
                     userAnswerOption = in.nextLine();
@@ -89,8 +110,8 @@ public class TestingTakingTheTest
             }
             else
             {
-                System.out.println("Введите правильный вариант ответа.");
-                Scanner in = new Scanner(System.in);
+                System.out.println(question.getType().getUserInfo());
+                in = new Scanner(System.in);
                 userAnswerOption = in.nextLine();
 
                 if (question.getRightAnswerOptionsList().contains(userAnswerOption))
@@ -116,7 +137,7 @@ public class TestingTakingTheTest
             System.out.println("---------------------------------");
         }
         System.out.println("Тест завершен!");
-        System.out.println("Вы набрали " + userScores + " баллов(а) из " + test.getAllScores());
+        System.out.println("У Вас " + (100 * userScores / test.getAllScores()) + "% правильных ответов.");
     }
 
     /**
@@ -130,7 +151,7 @@ public class TestingTakingTheTest
 
         inputedValueElementList.clear();
 
-        if(inputedValueCount > answerOptionsCount*2 -1 ||
+        if(inputedValueCount > answerOptionsCount * 2 - 1 ||
            inputedValueCount > question.getType().getMaxRightAnswerOptionsCount() ||
            inputedValueCount < question.getType().getMinRightAnswerOptionsCount())
         {
@@ -142,17 +163,17 @@ public class TestingTakingTheTest
             //Каждый второй введенный символ
             if (j % 2 != 0)
             {
-                if (inputedValue.charAt(j) != ',' ||
-                    inputedValue.charAt(inputedValueCount - 1) == ',')
+                if (inputedValue.charAt(j) != TestingConst.COMMA ||
+                    inputedValue.charAt(inputedValueCount - 1) == TestingConst.COMMA)
                 {
                     return false;
                 }
             }
             else
             {
-                int inputedValueElement = (int)inputedValue.charAt(j) - 48;
+                int inputedValueElement = (int)inputedValue.charAt(j) - TestingConst.ZERO_NUMBER_IN_CHAR;
 
-                if (inputedValueElement <1 ||
+                if (inputedValueElement < 1 ||
                     inputedValueElement > answerOptionsCount  ||
                     inputedValueElementList.contains(inputedValueElement))
                 {

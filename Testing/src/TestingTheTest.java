@@ -21,7 +21,22 @@ public class TestingTheTest
     public TestingTheTest()
     {
         createQuestionList();
+
         setAllScores();
+        Collections.shuffle(questionsList);
+    }
+
+    /**
+     * Конструктор.
+     * @param xmlFilePath - путь к XML - файлу.
+     */
+    public TestingTheTest(String xmlFilePath)
+    {
+        TestingXmlDataReader reader = new TestingXmlDataReader();
+        questionsList.addAll(reader.getQuestionsListFromXml(xmlFilePath));
+
+        setAllScores();
+        Collections.shuffle(questionsList);
     }
 
     /**
@@ -46,9 +61,9 @@ public class TestingTheTest
                 "каждый из которых является экземпляром определенного класса," +
                 "а классы образуют иерархию наследования - это...");
         TestingQuestion question = new TestingQuestion(textQuestion, TestingComplexityOfTheQuestion.HARD, user);
-        question.addAnswerOption(true,"ООП");
+        question.addAnswerOption(true, "ООП");
 
-        questionsList.add(question);
+        addQuestion(question);
 
         //Вопрос № 2
         textQuestion = new String("Что такое класс в Java ?");
@@ -62,7 +77,7 @@ public class TestingTheTest
         question.addAnswerOption("Просто одно из возможных названий переменной.");
         question.addAnswerOption("Такое понятие есть только в C++, в Java такого понятия нет.");
 
-        questionsList.add(question);
+        addQuestion(question);
 
         //Вопрос № 3
         textQuestion = new String("Какие варианты инициализации массива правильные ?");
@@ -70,25 +85,23 @@ public class TestingTheTest
 
         question.addAnswerOption("int[] array = new int[];");
         question.addAnswerOption("int[] array = int[];");
-        question.addAnswerOption(true,"int[] array = new int[]{1,2,3,4,5};");
+        question.addAnswerOption(true, "int[] array = new int[]{1,2,3,4,5};");
         question.addAnswerOption("int[] array = 1,2,3,4,5;");
-        question.addAnswerOption(true,"int[] array = new int[5];;");
-        question.addAnswerOption(true,"int[] array = {1,2,3,4,5};");
+        question.addAnswerOption(true, "int[] array = new int[5];");
+        question.addAnswerOption(true, "int[] array = {1,2,3,4,5};");
 
-        questionsList.add(question);
+        addQuestion(question);
 
         //Вопрос № 4
         textQuestion = new String("Как объявить класс в коде ?");
         question = new TestingQuestion(textQuestion, TestingComplexityOfTheQuestion.LOW, user);
 
         question.addAnswerOption("new class MyClass {}");
-        question.addAnswerOption(true,"class MyClass {}");
+        question.addAnswerOption(true, "class MyClass {}");
         question.addAnswerOption("select * from class MyClass {}");
         question.addAnswerOption("MyClass extends class {}");
 
-        questionsList.add(question);
-
-        Collections.shuffle(questionsList);
+        addQuestion(question);
     }
 
     /**
@@ -109,5 +122,14 @@ public class TestingTheTest
     public int getAllScores()
     {
         return allScores;
+    }
+
+    /**
+     * Добавляет вопрос в список.
+     * @param question - вопрос.
+     */
+    private void addQuestion(TestingQuestion question)
+    {
+        questionsList.add(question);
     }
 }
