@@ -34,25 +34,43 @@ public class TestingTakingTheTest
      */
     private void outQuestionsList()
     {
-        TestingTheTest test;
-        System.out.println("Выберите источник загрузки теста:");
-        System.out.println("1. Из XML - файла;");
-        System.out.println("2. Из кода.");
+        TestingTheTest test = new TestingTheTest();
 
-        test = new TestingTheTest();
+        Scanner in;
+        String inputedValue = new String();
 
-        Scanner in = new Scanner(System.in);
-        int sourceLoadTest = in.nextInt();
+        boolean isValidInputedValue = false;
 
-        if (sourceLoadTest == 1)
+        while (isValidInputedValue == false)
         {
+            System.out.println("Выберите источник загрузки теста:");
+            System.out.println("1. Из XML - файла;");
+            System.out.println("2. Из кода.");
+
+            in = new Scanner(System.in);
+            inputedValue = in.nextLine();
+
+            if (inputedValue.isEmpty() || inputedValue.charAt(0) != TestingConst.ONE && inputedValue.charAt(0) != TestingConst.TWO)
+            {
+                System.out.println("Ввод неверный.");
+            }
+            else
+            {
+                isValidInputedValue = true;
+            }
+        }
+
+        if (inputedValue.charAt(0) == TestingConst.ONE)
+        {
+            System.out.println("1");
+
             System.out.println("Укажите путь к xml - файлу.");
             in = new Scanner(System.in);
             String xmlFilePath = in.nextLine();
 
             test = new TestingTheTest(xmlFilePath);
         }
-        else if (sourceLoadTest == 2)
+        else if (inputedValue.charAt(0) == TestingConst.TWO)
         {
             test = new TestingTheTest();
         }
@@ -160,7 +178,7 @@ public class TestingTakingTheTest
 
         for (int j = 0; j < inputedValueCount; j ++)
         {
-            //Каждый второй введенный символ
+            //Каждый второй введенный символ должен быть запятой (только если он не последний).
             if (j % 2 != 0)
             {
                 if (inputedValue.charAt(j) != TestingConst.COMMA ||

@@ -17,6 +17,9 @@ public class TestingConst
     public static final String ANSWER_OPTION_TEXT = "answerOptionText";
 
     public static final char COMMA = ',';
+    public static final char ONE = '1';
+    public static final char TWO = '2';
+
 
     public static final int ZERO_NUMBER_IN_CHAR = 48;
 
