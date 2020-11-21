@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -30,10 +31,16 @@ public class TestingTheTest
      * Конструктор.
      * @param xmlFilePath - путь к XML - файлу.
      */
-    public TestingTheTest(String xmlFilePath)
+    public TestingTheTest(String xmlFilePath) throws FileNotFoundException 
     {
         TestingXmlDataReader reader = new TestingXmlDataReader();
-        questionsList.addAll(reader.getQuestionsListFromXml(xmlFilePath));
+        try
+        {
+            questionsList.addAll(reader.getQuestionsListFromXml(xmlFilePath));
+        } catch (FileNotFoundException exception)
+        {
+            throw exception;
+        }
 
         setAllScores();
         Collections.shuffle(questionsList);

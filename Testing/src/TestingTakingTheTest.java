@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -66,9 +68,19 @@ public class TestingTakingTheTest
 
             System.out.println("Укажите путь к xml - файлу.");
             in = new Scanner(System.in);
+
             String xmlFilePath = in.nextLine();
 
-            test = new TestingTheTest(xmlFilePath);
+            try
+            {
+                test = new TestingTheTest(xmlFilePath);
+            }
+            catch (FileNotFoundException exception)
+            {
+                System.err.println(exception.getMessage());
+                outQuestionsList();
+            }
+
         }
         else if (inputedValue.charAt(0) == TestingConst.TWO)
         {

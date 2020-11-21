@@ -5,6 +5,7 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -25,15 +26,21 @@ public class TestingXmlDataReader
      * @param xmlFilePath - путь к xml - файлу.
      * @return список вопросов.
      */
-    public ArrayList<TestingQuestion> getQuestionsListFromXml(String xmlFilePath)
+    public ArrayList<TestingQuestion> getQuestionsListFromXml(String xmlFilePath) throws FileNotFoundException
     {
         ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
 
-        String filepath = xmlFilePath;
+        String filePath = xmlFilePath;
+
+        if ((new File(filePath)).exists() == false)
+        {
+            throw  new FileNotFoundException("Файл не найден.\n");
+        }
 
         try
         {
-            File xmlFile = new File(filepath);
+            File xmlFile = new File(filePath);
+
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = null;
 
