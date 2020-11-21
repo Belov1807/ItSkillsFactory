@@ -32,15 +32,20 @@ public class TestingXmlDataReader
 
         String filePath = xmlFilePath;
 
-        if ((new File(filePath)).exists() == false)
+        if (filePath.endsWith(".xml") == false)
+        {
+            throw  new FileNotFoundException("Указан файл неверного формата.\n");
+        }
+
+        File xmlFile = new File(filePath);
+
+        if (xmlFile.isFile() == false)
         {
             throw  new FileNotFoundException("Файл не найден.\n");
         }
 
         try
         {
-            File xmlFile = new File(filePath);
-
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = null;
 

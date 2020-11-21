@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -52,9 +51,9 @@ public class TestingTakingTheTest
             in = new Scanner(System.in);
             inputedValue = in.nextLine();
 
-            if (inputedValue.isEmpty() || inputedValue.charAt(0) != TestingConst.ONE && inputedValue.charAt(0) != TestingConst.TWO)
+            if (inputedValue.length() != 1 || inputedValue.charAt(0) != TestingConst.ONE && inputedValue.charAt(0) != TestingConst.TWO)
             {
-                System.out.println("Ввод неверный.");
+                System.err.println("Некорректный ввод");
             }
             else
             {
@@ -64,8 +63,6 @@ public class TestingTakingTheTest
 
         if (inputedValue.charAt(0) == TestingConst.ONE)
         {
-            System.out.println("1");
-
             System.out.println("Укажите путь к xml - файлу.");
             in = new Scanner(System.in);
 
@@ -116,7 +113,7 @@ public class TestingTakingTheTest
 
                 while (!isValidInputedValue(userAnswerOption))
                 {
-                    System.out.println("Некорректный ввод");
+                    System.err.println("Некорректный ввод");
                     System.out.println(question.getType().getUserInfo());
 
                     in = new Scanner(System.in);
