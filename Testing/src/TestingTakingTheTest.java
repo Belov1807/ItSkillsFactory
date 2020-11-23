@@ -8,6 +8,11 @@ import java.util.Scanner;
 public class TestingTakingTheTest
 {
     /**
+     * Тест.
+     */
+    TestingTestsList tests;
+
+    /**
      * Вопрос.
      */
     private TestingQuestion question;
@@ -35,8 +40,6 @@ public class TestingTakingTheTest
      */
     private void outQuestionsList()
     {
-        TestingTheTest test = new TestingTheTest();
-
         Scanner in;
         String inputedValue = new String();
 
@@ -61,110 +64,125 @@ public class TestingTakingTheTest
             }
         }
 
-        if (inputedValue.charAt(0) == TestingConst.ONE)
+        try
         {
-            System.out.println("Укажите путь к xml - файлу.");
-            in = new Scanner(System.in);
-
-            String xmlFilePath = in.nextLine();
-
-            try
+            if (inputedValue.charAt(0) == TestingConst.ONE)
             {
-                test = new TestingTheTest(xmlFilePath);
-            }
-            catch (FileNotFoundException exception)
-            {
-                System.err.println(exception.getMessage());
-                outQuestionsList();
-            }
-
-        }
-        else if (inputedValue.charAt(0) == TestingConst.TWO)
-        {
-            test = new TestingTheTest();
-        }
-
-        int userScores = 0;
-
-        for (int i = 0; i < test.getQuestionsList().size(); i ++)
-        {
-            question = test.getQuestionsList().get(i);
-
-            System.out.println("\nВопрос № " + (i + 1));
-            System.out.println(question.getQuestionText());
-
-            String userAnswerOption = new String();
-            boolean rightAnswerOption = false;
-
-            if (question.getType() != TestingTypesOfQuestion.OPENING_QUESTION)
-            {
-                answerOptionsCount = question.getAnswerOptionsList().size();
-                for (int j = 0; j < answerOptionsCount; j ++)
-                {
-                    System.out.println("\nВариант № " + (j + 1));
-
-                    System.out.println("- " + question.getAnswerOption(j));
-                }
-
-                System.out.println(question.getType().getUserInfo());
-
+                System.out.println("Укажите путь к xml - файлу.");
                 in = new Scanner(System.in);
-                userAnswerOption = in.nextLine();
 
-                while (!isValidInputedValue(userAnswerOption))
+                String xmlFilePath = in.nextLine();
+
+                try
                 {
-                    System.err.println("Некорректный ввод");
-                    System.out.println(question.getType().getUserInfo());
-
-                    in = new Scanner(System.in);
-                    userAnswerOption = in.nextLine();
-                    isValidInputedValue(userAnswerOption);
+                    tests = new TestingTestsList(xmlFilePath);
+                } catch (FileNotFoundException exception)
+                {
+                    System.err.println(exception.getMessage());
+                    outQuestionsList();
                 }
 
-                for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
+            }
+            else if (inputedValue.charAt(0) == TestingConst.TWO)
+            {
+                tests = new TestingTestsList();
+            }
+
+            int userScores = 0;
+
+            ArrayList testsList = tests.getTestsList();
+
+            for (int t = 0; t < testsList.size(); t++)
+            {
+                TestingTheTest test = tests.getTestsListAt(t);
+
+                System.out.println("Тест " + test.getTestName());
+                for (int i = 0; i < test.getQuestionsList().size(); i++)
                 {
-                    if (inputedValueElementList.contains(question.getAnswerOptionsList().indexOf(
-                            question.getRightAnswerOptionsList().get(j)) + 1))
+                    question = test.getQuestionsList().get(i);
+
+                    System.out.println("\nВопрос № " + (i + 1));
+                    System.out.println(question.getQuestionText());
+
+                    String userAnswerOption = new String();
+                    boolean rightAnswerOption = false;
+
+                    if (question.getType() != TestingTypesOfQuestion.OPENING_QUESTION)
                     {
-                        rightAnswerOption = true;
+                        answerOptionsCount = question.getAnswerOptionsList().size();
+                        for (int j = 0; j < answerOptionsCount; j++)
+                        {
+                            System.out.println("\nВариант № " + (j + 1));
+
+                            System.out.println("- " + question.getAnswerOption(j));
+                        }
+
+                        System.out.println(question.getType().getUserInfo());
+
+                        in = new Scanner(System.in);
+                        userAnswerOption = in.nextLine();
+
+                        while (!isValidInputedValue(userAnswerOption))
+                        {
+                            System.err.println("Некорректный ввод");
+                            System.out.println(question.getType().getUserInfo());
+
+                            in = new Scanner(System.in);
+                            userAnswerOption = in.nextLine();
+                            isValidInputedValue(userAnswerOption);
+                        }
+
+                        for (int j = 0; j < question.getRightAnswerOptionsList().size(); j++)
+                        {
+                            if (inputedValueElementList.contains(question.getAnswerOptionsList().indexOf(
+                                    question.getRightAnswerOptionsList().get(j)) + 1))
+                            {
+                                rightAnswerOption = true;
+                            }
+                            else
+                            {
+                                rightAnswerOption = false;
+                                break;
+                            }
+                        }
                     }
                     else
                     {
-                        rightAnswerOption = false;
-                        break;
+                        System.out.println(question.getType().getUserInfo());
+                        in = new Scanner(System.in);
+                        userAnswerOption = in.nextLine();
+
+                        if (question.getRightAnswerOptionsList().contains(userAnswerOption))
+                        {
+                            rightAnswerOption = true;
+                        }
                     }
-                }
-            }
-            else
-            {
-                System.out.println(question.getType().getUserInfo());
-                in = new Scanner(System.in);
-                userAnswerOption = in.nextLine();
+                    if (rightAnswerOption == true)
+                    {
+                        System.out.println("Правильный ответ");
+                        userScores += question.getComplexity().getScore();
+                    }
+                    else
+                    {
+                        System.out.println("Ответ неверный");
+                        System.out.println("Правильный ответ:");
 
-                if (question.getRightAnswerOptionsList().contains(userAnswerOption))
-                {
-                    rightAnswerOption = true;
+                        for (int j = 0; j < question.getRightAnswerOptionsList().size(); j++)
+                        {
+                            System.out.println("\n- " + question.getRightAnswerOptionsList().get(j));
+                        }
+                    }
+                    System.out.println("---------------------------------");
                 }
+                System.out.println("Тест завершен!");
+                System.out.println("У Вас " + (100 * userScores / test.getAllScores()) + "% правильных ответов.");
             }
-            if (rightAnswerOption == true)
-            {
-                System.out.println("Правильный ответ");
-                userScores += question.getComplexity().getScore();
-            }
-            else
-            {
-                System.out.println("Ответ неверный");
-                System.out.println("Правильный ответ:");
-
-                for (int j = 0; j < question.getRightAnswerOptionsList().size(); j ++)
-                {
-                    System.out.println("\n- " + question.getRightAnswerOptionsList().get(j));
-                }
-            }
-            System.out.println("---------------------------------");
+        } catch (Exception exception)
+        {
+            System.err.println(exception.getMessage());
+            outQuestionsList();
         }
-        System.out.println("Тест завершен!");
-        System.out.println("У Вас " + (100 * userScores / test.getAllScores()) + "% правильных ответов.");
+
     }
 
     /**
@@ -178,27 +196,27 @@ public class TestingTakingTheTest
 
         inputedValueElementList.clear();
 
-        if(inputedValueCount > answerOptionsCount * 2 - 1 ||
-           inputedValueCount > question.getType().getMaxRightAnswerOptionsCount() ||
-           inputedValueCount < question.getType().getMinRightAnswerOptionsCount())
+        if (inputedValueCount > answerOptionsCount * 2 - 1 ||
+                inputedValueCount > question.getType().getMaxRightAnswerOptionsCount() ||
+                inputedValueCount < question.getType().getMinRightAnswerOptionsCount())
         {
             return false;
         }
 
-        for (int j = 0; j < inputedValueCount; j ++)
+        for (int j = 0; j < inputedValueCount; j++)
         {
             //Каждый второй введенный символ должен быть запятой (только если он не последний).
             if (j % 2 != 0)
             {
                 if (inputedValue.charAt(j) != TestingConst.COMMA ||
-                    inputedValue.charAt(inputedValueCount - 1) == TestingConst.COMMA)
+                        inputedValue.charAt(inputedValueCount - 1) == TestingConst.COMMA)
                 {
                     return false;
                 }
             }
             else
             {
-                int inputedValueElement = (int)inputedValue.charAt(j) - TestingConst.ZERO_NUMBER_IN_CHAR;
+                int inputedValueElement = (int) inputedValue.charAt(j) - TestingConst.ZERO_NUMBER_IN_CHAR;
 
                 if (inputedValueElement < 1 ||
                     inputedValueElement > answerOptionsCount  ||

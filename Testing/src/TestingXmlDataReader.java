@@ -5,8 +5,11 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * Класс считывания данных из файла формата XML.
@@ -14,76 +17,144 @@ import java.util.ArrayList;
 public class TestingXmlDataReader
 {
     /**
-     * Конструктор.
+     * Путь к файлу.
      */
-    public TestingXmlDataReader()
-    {
+    private String xmlFilePath = new String();
 
+    /**
+     * Элемент xml.
+     */
+    private Element element;
+
+    /**
+     * Название теста.
+     */
+    private String testName = new String();
+
+    /**
+     * Список вопросов.
+     */
+    private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
+
+    /**
+     * Конструктор.
+     * @param xmlFilePath - путь к файлу.
+     * @throws Exception - выбрасываемое исключение.
+     */
+    public TestingXmlDataReader(String xmlFilePath) throws Exception
+    {
+        this.xmlFilePath = xmlFilePath;
+
+        setQuestionsListFromXml();
     }
 
     /**
-     * Возвращает список вопросов из файла формата XML.
-     * @param xmlFilePath - путь к xml - файлу.
-     * @return список вопросов.
+     * Задает список вопросов из файла.
+     * @throws Exception - выбрасываемое исключение.
      */
-    public ArrayList<TestingQuestion> getQuestionsListFromXml(String xmlFilePath) throws FileNotFoundException
+    private void setQuestionsListFromXml() throws Exception
     {
-        ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
-
-        String filePath = xmlFilePath;
-
-        if (filePath.endsWith(".xml") == false)
+        if (xmlFilePath.endsWith(".xml") == false)
         {
-            throw  new FileNotFoundException("Указан файл неверного формата.\n");
+            throw new Exception("Указан файл неверного формата.\n");
         }
 
-        File xmlFile = new File(filePath);
+        File xmlFile = new File(xmlFilePath);
 
         if (xmlFile.isFile() == false)
         {
-            throw  new FileNotFoundException("Файл не найден.\n");
+            throw new Exception("Файл не найден.\n");
         }
 
-        try
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
+
+        builder = factory.newDocumentBuilder();
+        Document document = builder.parse(xmlFile);
+        document.getDocumentElement().normalize();
+
+        element = document.getDocumentElement();
+
+        if (element.getTagName() != TestingConst.TEST)
         {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
+            throw new Exception("Ошибка чтения из файла. Отсутствует обязательный тэг: \"" + TestingConst.TEST + "\"");
+        }
 
+        checkAttribute(TestingConst.TEST_NAME);
 
-            builder = factory.newDocumentBuilder();
-            Document document = builder.parse(xmlFile);
-            document.getDocumentElement().normalize();
+        testName = element.getAttribute(TestingConst.TEST_NAME);
 
-            Element docElement = document.getDocumentElement();
-            NodeList questionsNodeList = docElement.getElementsByTagName(TestingConst.QUESTION);
+        NodeList questionsNodeList = element.getElementsByTagName(TestingConst.QUESTION);
 
-            for (int i = 0; i < questionsNodeList.getLength(); i++)
+        for (int i = 0; i < questionsNodeList.getLength(); i++)
+        {
+            TestingUser user = new TestingUser();
+
+            element = (Element) questionsNodeList.item(i);
+
+            NodeList answerOptionsNodeList = element.getElementsByTagName(TestingConst.ANSWER_OPTION);
+
+            checkAttribute(TestingConst.QUESTION_TEXT);
+            checkAttribute(TestingConst.COMPLEXITY);
+
+            //Создает список перечеслений TestingComplexityOfTheQuestion, и конвертирует в список строк.
+            List<TestingComplexityOfTheQuestion> complexityList = Arrays.asList(TestingComplexityOfTheQuestion.values());
+            List<String> complexityToStringList = complexityList.stream().map(Object::toString).collect(Collectors.toList());
+
+            if (complexityToStringList.contains(element.getAttribute(TestingConst.COMPLEXITY)) == false)
             {
-                TestingUser user = new TestingUser();
-
-                Element questionElement = (Element) questionsNodeList.item(i);
-
-                NodeList answerOptionsNodeList = questionElement.getElementsByTagName(TestingConst.ANSWER_OPTION);
-
-                TestingQuestion question = new TestingQuestion(questionElement.getAttribute(TestingConst.QUESTION_TEXT),
-                        TestingComplexityOfTheQuestion.valueOf(questionElement.getAttribute(TestingConst.COMPLEXITY)), user);
-
-                for (int j = 0; j < answerOptionsNodeList.getLength(); j++)
-                {
-
-                    questionElement = (Element) answerOptionsNodeList.item(j);
-
-                    question.addAnswerOption(Boolean.valueOf(questionElement.getAttribute(TestingConst.IS_RIGHT_ANSWER_OPTION_THIS)),
-                            questionElement.getAttribute(TestingConst.ANSWER_OPTION_TEXT));
-                }
-                questionsList.add(question);
+                throw new Exception("Ошибка чтения из файла. Некорректная сложность вопроса.");
             }
-        }
-        catch (Exception exc)
-        {
-            exc.printStackTrace();
-        }
 
+            TestingQuestion question = new TestingQuestion(element.getAttribute(TestingConst.QUESTION_TEXT),
+                    TestingComplexityOfTheQuestion.valueOf(element.getAttribute(TestingConst.COMPLEXITY)), user);
+
+            for (int j = 0; j < answerOptionsNodeList.getLength(); j++)
+            {
+
+                element = (Element) answerOptionsNodeList.item(j);
+
+                checkAttribute(TestingConst.IS_RIGHT_ANSWER_OPTION_THIS);
+                checkAttribute(TestingConst.ANSWER_OPTION_TEXT);
+
+                question.addAnswerOption(Boolean.valueOf(element.getAttribute(TestingConst.IS_RIGHT_ANSWER_OPTION_THIS)),
+                        element.getAttribute(TestingConst.ANSWER_OPTION_TEXT));
+            }
+            questionsList.add(question);
+        }
+    }
+
+    /**
+     * Проверяет наличие аттрибута в файле.
+     *
+     * @param attribute - аттрибут.
+     * @throws Exception - выбрасываемое исключение.
+     */
+    private void checkAttribute(String attribute) throws Exception
+    {
+        if (element.hasAttribute(attribute) == false)
+        {
+            throw new Exception("Ошибка чтения из файла. Отсутствует обязательный аттрибут: \"" + attribute + "\"");
+        }
+    }
+
+    /**
+     * Возвращает список вопросов.
+     *
+     * @return список вопросов.
+     */
+    public ArrayList<TestingQuestion> getQuestionsList()
+    {
         return questionsList;
+    }
+
+    /**
+     * Возвращает имя теста.
+     *
+     * @return имя теста.
+     */
+    public String getTestName()
+    {
+        return testName;
     }
 }

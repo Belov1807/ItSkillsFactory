@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -14,16 +13,23 @@ public class TestingTheTest
     /**
      * Список вопросов.
      */
-    public ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
+    private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
+
+    /**
+     * Название теста.
+     */
+    private String testName = new String();
 
     /**
      * Конструктор.
      */
-    public TestingTheTest()
+    public TestingTheTest() throws Exception 
     {
         createQuestionList();
+        chechQuestionsRightAnswer();
 
         setAllScores();
+
         Collections.shuffle(questionsList);
     }
 
@@ -31,16 +37,14 @@ public class TestingTheTest
      * Конструктор.
      * @param xmlFilePath - путь к XML - файлу.
      */
-    public TestingTheTest(String xmlFilePath) throws FileNotFoundException 
+    public TestingTheTest(String xmlFilePath) throws Exception
     {
-        TestingXmlDataReader reader = new TestingXmlDataReader();
-        try
-        {
-            questionsList.addAll(reader.getQuestionsListFromXml(xmlFilePath));
-        } catch (FileNotFoundException exception)
-        {
-            throw exception;
-        }
+        TestingXmlDataReader reader = new TestingXmlDataReader(xmlFilePath);
+
+        testName = reader.getTestName();
+
+        questionsList.addAll(reader.getQuestionsList());
+        chechQuestionsRightAnswer();
 
         setAllScores();
         Collections.shuffle(questionsList);
@@ -58,7 +62,7 @@ public class TestingTheTest
     /**
      * Создает список вопросов.
      */
-    private void createQuestionList()
+    private void createQuestionList() throws Exception 
     {
         TestingUser user = new TestingUser();
 
@@ -138,5 +142,28 @@ public class TestingTheTest
     private void addQuestion(TestingQuestion question)
     {
         questionsList.add(question);
+    }
+
+    /**
+     * Возвращает имя теста.
+     * @return
+     */
+    public String getTestName()
+    {
+        return testName;
+    }
+
+    /**
+     * Проверяет нет ли в списке вопросов, вопроса без правильного варианта ответа.
+     */
+    private void chechQuestionsRightAnswer() throws Exception {
+        for (int i = 0; i < questionsList.size(); i ++)
+        {
+            if (questionsList.get(i).isEmptyRightAnswerOptionsList())
+            {
+                throw new Exception("Ошибка построения списка вопросов! В вопросе \"" + questionsList.get(i).getQuestionText()  +
+                    "\" не задан правильный ответ.");
+            }
+        }
     }
 }

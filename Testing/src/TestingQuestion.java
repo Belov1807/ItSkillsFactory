@@ -95,7 +95,7 @@ public class TestingQuestion
         {
             type = TestingTypesOfQuestion.SINGLE_RIGHT_OPTION;
         }
-        else
+        else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() == 1)
         {
             type = TestingTypesOfQuestion.OPENING_QUESTION;
         }
@@ -145,6 +145,19 @@ public class TestingQuestion
     public ArrayList<String> getRightAnswerOptionsList()
     {
         return rightAnswerOptionsList;
+    }
+
+    /**
+     * Возвращает состояние отсутствия правильного варианта ответа в вопросе.
+     * @return true - в вопросе отсутствует правильный вариант ответа.
+     */
+    public boolean isEmptyRightAnswerOptionsList()
+    {
+        if (rightAnswerOptionsList.isEmpty())
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
