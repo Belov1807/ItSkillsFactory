@@ -42,7 +42,6 @@ public class TestingTakingTheTest
     {
         Scanner in;
         String inputedValue = new String();
-
         boolean isValidInputedValue = false;
 
         while (isValidInputedValue == false)
@@ -54,7 +53,9 @@ public class TestingTakingTheTest
             in = new Scanner(System.in);
             inputedValue = in.nextLine();
 
-            if (inputedValue.length() != 1 || inputedValue.charAt(0) != TestingConst.ONE && inputedValue.charAt(0) != TestingConst.TWO)
+            if (inputedValue.length() != 1 ||
+                    inputedValue.charAt(0) != TestingConst.ONE &&
+                            inputedValue.charAt(0) != TestingConst.TWO)
             {
                 System.err.println("Некорректный ввод");
             }

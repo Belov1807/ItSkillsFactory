@@ -1,193 +1,111 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * Класс пользователя.
  */
-public class TestingUser implements TestingUserService {
+public class TestingUser
+{
+    /**
+     * Логин пользователя.
+     */
+    private String login = new String();
+    /**
+     * Пароль пользователя.
+     */
+    private String password = new String();
     /**
      * Имя пользователя.
      */
-    private String name = null;
+    private String name = new String();
 
     /**
-     * Введенный логин пользователя.
+     * Является ли пользователь администратором.
      */
-    private String login = null;
-    /**
-     * Введенный пароль пользователя.
-     */
-    private String password = null;
-
-    /**
-     * Имя администратора.
-     */
-    private String nameAdmin = "Администратор";
-    /**
-     * Логин администратора.
-     */
-    private String loginAdmin = "admin";
-    /**
-     * Пароль администратора.
-     */
-    private String passwordAdmin = "12345678";
-
-    /**
-     * Имя зарегистрированного пользователя.
-     */
-    private String nameRegisterUser = null;
-    /**
-     * Логин зарегистрированного пользователя.
-     */
-    private String loginRegisterUser = null;
-    /**
-     * Пароль зарегистрированного пользователя.
-     */
-    private String passwordRegisterUser = null;
-
-    /**
-     * Список зарегистрированных пользователей.
-     */
-    ArrayList<ArrayList<String>> registerUsersList = new ArrayList <ArrayList<String>>();
+    private boolean userIsAdmin = false;
 
     /**
      * Конструктор.
+     * @param userIsAdmin - является ли пользователь администратором.
+     * @param login - логин пользователя.
      */
-    public TestingUser()
+    public TestingUser(boolean userIsAdmin, String login)
     {
+        this.userIsAdmin = userIsAdmin;
+        this.login = login;
     }
 
     /**
-     * Регистрация пользователя.
+     * Конструктор.
+     * @param login - логин пользователя.
      */
-    @Override
-    public void register() {
-        System.out.println("Регистрация");
-
-        System.out.println("Введите логин");
-        Scanner in = new Scanner(System.in);
-        loginRegisterUser = in.nextLine();
-
-        System.out.println("Введите пароль");
-        in = new Scanner(System.in);
-        passwordRegisterUser = in.nextLine();
-
-        System.out.println("Как Вас зовут?");
-        in = new Scanner(System.in);
-        nameRegisterUser = in.nextLine();
-
-        System.out.println("Вы успешно зарегистрировались в системе!\n");
-
-        ArrayList<String> registerUserList = new ArrayList<String>();
-        registerUserList.add(loginRegisterUser);
-        registerUserList.add(passwordRegisterUser);
-        registerUserList.add(nameRegisterUser);
-        registerUsersList.add(registerUserList);
-
-        selectActionInSystem();
+    public TestingUser(String login)
+    {
+        userIsAdmin = false;
+        this.login = login;
     }
 
     /**
-     * Вход в систему.
+     * Устанавливает пароль пользователя.
+     * @param password - пароль пользователя.
      */
-    @Override
-    public void login()
+    public void setPassword(String password)
     {
-        System.out.println("Вход в систему");
-        System.out.println("Введите логин");
-        Scanner in = new Scanner(System.in);
-        login = in.nextLine();
-
-        System.out.println("Введите пароль");
-        in = new Scanner(System.in);
-        password = in.nextLine();
-
-        if (isUserExists() == true)
-        {
-            System.out.println("Вход выполнен.");
-            System.out.println("Вы вошли в систему как " + name);
-
-            TestingTakingTheTest takingTheTest = new TestingTakingTheTest();
-
-            logout();
-        }
-        else
-        {
-            System.out.println("Пользователь не найден!");
-            login();
-        }
+        this.password = password;
     }
 
     /**
-     * Выход из системы.
+     * Устанавливает имя пользователя.
+     * @param name - имя пользователя.
      */
-    @Override
-    public void logout()
+    public void setName(String name)
     {
-        System.out.println("Для выхода из системы введите \"Выйти\"");
-
-        Scanner in = new Scanner(System.in);
-
-        while (!in.nextLine().equals("Выйти"))
-        {
-            System.out.println("Для выхода из системы введите \"Выйти\"");
-
-            in = new Scanner(System.in);
-        }
-        System.out.println("Выход из системы выполнен.\n");
-        selectActionInSystem();
+        this.name = name;
     }
 
     /**
-     * Возвращает найден ли пользователь.
-     * @return true - пользователь найден.
+     * Возвращает логин пользователя.
+     * @return логин пользователя.
      */
-    private boolean isUserExists()
+    public String getLogin()
     {
-        for (int i = 0; i < registerUsersList.size(); i ++)
-        {
-            if (login.equals(registerUsersList.get(i).get(0)) &&
-                    password.equals(registerUsersList.get(i).get(1)))
-            {
-                name = registerUsersList.get(i).get(2);
-                return true;
-            }
-        }
-        if (login.equals(loginAdmin) &&
-            password.equals(passwordAdmin))
-        {
-            name = nameAdmin;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return login;
     }
 
     /**
-     * Выбор пользователем действия в системе.
+     * Возвращает пароль пользователя.
+     * @return пароль пользователя.
      */
-    @Override
-    public void selectActionInSystem()
+    public String getPassword()
     {
-        System.out.println("Если Вы хотите войти в систему введите \"Вход\"");
-        System.out.println("Если Вы хотите зарегистрироваться в системе введите \"Регистрация\"");
+        return password;
+    }
 
-        Scanner in = new Scanner(System.in);
-        String inputedSelectAction =  in.nextLine();
+    /**
+     * Возвращает имя пользователя.
+     * @return
+     */
+    public String getName()
+    {
+        return name;
+    }
 
-        if (inputedSelectAction.equals("Вход"))
+    /**
+     * Возвращает является ли пользователь администратором.
+     * @return true - пользователь является администратором.
+     */
+    public boolean isUserIsAdmin()
+    {
+        return userIsAdmin;
+    }
+
+    /**
+     * Возвращает статус пользователя.
+     * @return -статус пользователя.
+     */
+    public String getStatusUser()
+    {
+        if (userIsAdmin == false)
         {
-            login();
+            return TestingConst.STATUS_USER_SIMPLE_USER;
         }
-        if (inputedSelectAction.equals("Регистрация"))
-        {
-            register();
-        }
-        else
-        {
-            selectActionInSystem();
-        }
+        return TestingConst.STATUS_USER_ADMIN;
     }
 }

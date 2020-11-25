@@ -1,4 +1,4 @@
-/*Version 0.9.0*/
+/*Version 0.10.0*/
 
 /**
  * Главный класс приложения по тестированию.
@@ -12,8 +12,8 @@ public class TestingMain
     {
         System.out.println("Здравствуйте! Добро пожаловать в приложение по тестированию!");
 
-        TestingUser user = new TestingUser();
-        user.selectActionInSystem();
+        TestingUserService userService = new TestingUserService();
+        userService.selectActionInSystem();
     }
     public  static  void  main (String [] args)
     {

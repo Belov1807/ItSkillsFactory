@@ -64,7 +64,7 @@ public class TestingTheTest
      */
     private void createQuestionList() throws Exception 
     {
-        TestingUser user = new TestingUser();
+        TestingUser user = new TestingUser("login");
 
         //Вопрос № 1
         String textQuestion = new String("методология программирования основанная на представлении программы в виде " +

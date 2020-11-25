@@ -88,7 +88,7 @@ public class TestingXmlDataReader
 
         for (int i = 0; i < questionsNodeList.getLength(); i++)
         {
-            TestingUser user = new TestingUser();
+            TestingUser user = new TestingUser("login");
 
             element = (Element) questionsNodeList.item(i);
 
