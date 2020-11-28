@@ -9,7 +9,12 @@ public class TestingUserService implements TestingUserServiceInterface
     /**
      * Пользователь.
      */
-    private TestingUser user;
+    private TestingUser user = null;
+
+    /**
+     * Сервис по работе с тестами.
+     */
+    private TestingTestService testService = null;
 
     /**
      * Список пользователей.
@@ -32,13 +37,14 @@ public class TestingUserService implements TestingUserServiceInterface
     public TestingUserService()
     {
         addAdmin();
+        testService = new TestingTestService();
     }
 
     /**
      * Регистрация пользователя.
      */
     @Override
-    public void register()
+    public void register() throws Exception
     {
         System.out.println("Регистрация");
 
@@ -66,7 +72,7 @@ public class TestingUserService implements TestingUserServiceInterface
      * Вход в систему.
      */
     @Override
-    public void login()
+    public void login() throws Exception
     {
         System.out.println("Вход в систему");
         System.out.println("Введите логин");
@@ -95,7 +101,8 @@ public class TestingUserService implements TestingUserServiceInterface
             {
                 System.out.println("Вход выполнен.");
                 System.out.println("Вы вошли в систему как " + user.getStatusUser() + user.getName());
-                TestingTakingTheTest test = new TestingTakingTheTest();
+
+                userActions();
             }
         }
     }
@@ -104,18 +111,11 @@ public class TestingUserService implements TestingUserServiceInterface
      * Выход из системы.
      */
     @Override
-    public void logout()
+    public void logout() throws Exception
     {
-        System.out.println("Для выхода из системы введите \"Выйти\"");
 
-        Scanner in = new Scanner(System.in);
+        user = null;
 
-        while (!in.nextLine().equals("Выйти"))
-        {
-            System.out.println("Для выхода из системы введите \"Выйти\"");
-
-            in = new Scanner(System.in);
-        }
         System.out.println("Выход из системы выполнен.\n");
         selectActionInSystem();
     }
@@ -124,8 +124,9 @@ public class TestingUserService implements TestingUserServiceInterface
      * Выбор пользователем действия в системе.
      */
     @Override
-    public void selectActionInSystem()
+    public void selectActionInSystem() throws Exception
     {
+        user = null;
         Scanner in;
         String inputedSelectAction = new String();
         boolean isValidInputedValue = false;
@@ -192,5 +193,21 @@ public class TestingUserService implements TestingUserServiceInterface
         admin.setName(TestingConst.ADMIN_NAME);
 
         usersList.add(admin);
+    }
+
+    /**
+     * Действия пользователя после входа в систему.
+     */
+    private void userActions() throws Exception
+    {
+        if (user.isUserIsAdmin() == true)
+        {
+            testService.actionsWithTest();
+        }
+        else
+        {
+            TestingTakingTheTest taking = new TestingTakingTheTest();
+        }
+        selectActionInSystem();
     }
 }

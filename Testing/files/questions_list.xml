@@ -1,6 +1,6 @@
 ﻿<Test testName="java">
   <Questions>
-    <Question questionText="Что такое класс в Java ?" complexity="LOW">
+    <Question questionText="Что такое класс в Java ?" complexity="LOW" author="admin">
       <AnswerOptions>
         <AnswerOption isRightAnswerOptionThis="false" answerOptionText="Уровень сложности программы. Все операторы делятся на классы в зависимости от сложности их использования."/>
         <AnswerOption isRightAnswerOptionThis="true" answerOptionText="Базовый элемент объектно-ориентированного программирования в языке Java."/>
@@ -8,12 +8,12 @@
         <AnswerOption isRightAnswerOptionThis="false" answerOptionText="Такое понятие есть только в C++, в Java такого понятия нет."/>
       </AnswerOptions>
     </Question>
-    <Question questionText="Методология программирования основанная на представлении программы в виде совокупности объектов каждый из которых является экземпляром определенного класса, а классы образуют иерархию наследования - это..." complexity="HARD">
+    <Question questionText="Методология программирования основанная на представлении программы в виде совокупности объектов каждый из которых является экземпляром определенного класса, а классы образуют иерархию наследования - это..." complexity="HARD" author="admin">
       <AnswerOptions>
         <AnswerOption isRightAnswerOptionThis="true" answerOptionText="ООП"/>
       </AnswerOptions>
     </Question>
-     <Question questionText="Какие варианты инициализации массива правильные ?" complexity="MEDIUM">
+     <Question questionText="Какие варианты инициализации массива правильные ?" complexity="MEDIUM" author="admin">
       <AnswerOptions>
         <AnswerOption isRightAnswerOptionThis="false" answerOptionText="int[] array = new int[];"/>
         <AnswerOption isRightAnswerOptionThis="false" answerOptionText="int[] array = int[];"/>
@@ -22,7 +22,7 @@
         <AnswerOption isRightAnswerOptionThis="true" answerOptionText="int[] array = {1,2,3,4,5};"/>
       </AnswerOptions>
     </Question>
-     <Question questionText="Как объявить класс в коде ?" complexity="LOW">
+     <Question questionText="Как объявить класс в коде ?" complexity="LOW" author="admin">
       <AnswerOptions>
         <AnswerOption isRightAnswerOptionThis="false" answerOptionText="new class MyClass {}"/>
         <AnswerOption isRightAnswerOptionThis="true" answerOptionText="class MyClass {}"/>

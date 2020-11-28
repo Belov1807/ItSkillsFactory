@@ -6,20 +6,20 @@ public interface TestingUserServiceInterface
     /**
      * Выбор пользователем действия в системе.
      */
-    public void selectActionInSystem();
+    public void selectActionInSystem() throws Exception;
 
     /**
      * Регистрация пользователя.
      */
-    public void register();
+    public void register() throws Exception;
 
     /**
      * Вход в систему.
      */
-    public void login();
+    public void login() throws Exception;
 
     /**
      * Выход из системы.
      */
-    public void logout();
+    public void logout() throws Exception;
 }

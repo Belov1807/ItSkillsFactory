@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
+/**
  * Класс прохождения теста.
  */
 public class TestingTakingTheTest
@@ -10,12 +10,12 @@ public class TestingTakingTheTest
     /**
      * Тест.
      */
-    TestingTestsList tests;
+    private TestingTestService tests = null;
 
     /**
      * Вопрос.
      */
-    private TestingQuestion question;
+    private TestingQuestion question = null;
 
     /**
      * Количество вариантов ответа.
@@ -76,7 +76,7 @@ public class TestingTakingTheTest
 
                 try
                 {
-                    tests = new TestingTestsList(xmlFilePath);
+                    tests = new TestingTestService(xmlFilePath);
                 } catch (FileNotFoundException exception)
                 {
                     System.err.println(exception.getMessage());
@@ -86,7 +86,7 @@ public class TestingTakingTheTest
             }
             else if (inputedValue.charAt(0) == TestingConst.TWO)
             {
-                tests = new TestingTestsList();
+                tests = new TestingTestService();
             }
 
             int userScores = 0;

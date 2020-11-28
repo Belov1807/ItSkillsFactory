@@ -11,6 +11,7 @@ public class TestingConst
     public static final String ANSWER_OPTION = "AnswerOption";
 
     // XML - аттрибуты.
+    public static final String AUTHOR = "author";
     public static final String TEST_NAME = "testName";
     public static final String QUESTION_TEXT = "questionText";
     public static final String COMPLEXITY = "complexity";

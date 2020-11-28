@@ -7,15 +7,6 @@ import java.util.Collections;
 public class TestingQuestion
 {
     /**
-     * Идентификатор вопроса.
-     */
-    private static int idQuestion = 0;
-    /**
-     * Идентификатор варианта ответа.
-     */
-    private int idAnswerOptions = 0;
-
-    /**
      * Текст вопроса.
      */
     private String questionText = new String();
@@ -32,15 +23,15 @@ public class TestingQuestion
     /**
      * Тип вопроса.                                                                                                                                                                                                                                             
      */
-    private TestingTypesOfQuestion type;
+    private TestingTypesOfQuestion type = null;
     /**
      * Сложность вопроса.
      */
-    private TestingComplexityOfTheQuestion complexity;
+    private TestingComplexityOfTheQuestion complexity = null;
     /**
      * Автор вопроса.
      */
-    private TestingUser author;
+    private TestingUser author = null;
 
     TestingQuestion(String questionText,
                     TestingComplexityOfTheQuestion complexity,
@@ -49,8 +40,6 @@ public class TestingQuestion
         this.questionText = questionText;
         this.complexity = complexity;
         this.author = author;
-
-        idQuestion ++;
     }
 
     /**
@@ -60,7 +49,6 @@ public class TestingQuestion
     public void addAnswerOption(boolean isRightAnswerOptionThis, String answerOption)
     {
         answerOptionsList.add(answerOption);
-        idAnswerOptions ++;
 
         if (isRightAnswerOptionThis == true)
         {
@@ -99,15 +87,6 @@ public class TestingQuestion
         {
             type = TestingTypesOfQuestion.OPENING_QUESTION;
         }
-    }
-
-    /**
-     * Возвращает идентификатор вопроса.
-     * @return идентификатор вопроса.
-     */
-    public static int getIdQuestion()
-    {
-        return idQuestion;
     }
 
     /**
@@ -176,5 +155,14 @@ public class TestingQuestion
     public TestingComplexityOfTheQuestion getComplexity()
     {
         return complexity;
+    }
+
+    /**
+     * Возвращает автора вопроса.
+     * @return автор вопроса.
+     */
+    public TestingUser getAuthor()
+    {
+        return author;
     }
 }

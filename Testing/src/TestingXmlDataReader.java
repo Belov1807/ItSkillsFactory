@@ -24,7 +24,7 @@ public class TestingXmlDataReader
     /**
      * Элемент xml.
      */
-    private Element element;
+    private Element element = null;
 
     /**
      * Название теста.
@@ -88,14 +88,13 @@ public class TestingXmlDataReader
 
         for (int i = 0; i < questionsNodeList.getLength(); i++)
         {
-            TestingUser user = new TestingUser("login");
-
             element = (Element) questionsNodeList.item(i);
 
             NodeList answerOptionsNodeList = element.getElementsByTagName(TestingConst.ANSWER_OPTION);
 
             checkAttribute(TestingConst.QUESTION_TEXT);
             checkAttribute(TestingConst.COMPLEXITY);
+            checkAttribute(TestingConst.AUTHOR);
 
             //Создает список перечеслений TestingComplexityOfTheQuestion, и конвертирует в список строк.
             List<TestingComplexityOfTheQuestion> complexityList = Arrays.asList(TestingComplexityOfTheQuestion.values());
@@ -106,8 +105,10 @@ public class TestingXmlDataReader
                 throw new Exception("Ошибка чтения из файла. Некорректная сложность вопроса.");
             }
 
+            TestingUser author = new TestingUser(element.getAttribute(TestingConst.AUTHOR));
+
             TestingQuestion question = new TestingQuestion(element.getAttribute(TestingConst.QUESTION_TEXT),
-                    TestingComplexityOfTheQuestion.valueOf(element.getAttribute(TestingConst.COMPLEXITY)), user);
+                    TestingComplexityOfTheQuestion.valueOf(element.getAttribute(TestingConst.COMPLEXITY)), author);
 
             for (int j = 0; j < answerOptionsNodeList.getLength(); j++)
             {

@@ -23,7 +23,7 @@ public class TestingTheTest
     /**
      * Конструктор.
      */
-    public TestingTheTest() throws Exception 
+    public TestingTheTest() throws Exception
     {
         createQuestionList();
         chechQuestionsRightAnswer();
@@ -165,5 +165,14 @@ public class TestingTheTest
                     "\" не задан правильный ответ.");
             }
         }
+    }
+
+    /**
+     * Устанавливает имя теста.
+     * @param testName - имя теста.
+     */
+    public void setTestName(String testName)
+    {
+        this.testName = testName;
     }
 }
