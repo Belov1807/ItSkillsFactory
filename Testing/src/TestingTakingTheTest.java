@@ -188,6 +188,7 @@ public class TestingTakingTheTest
 
     /**
      * Возвращает валидность введенных пользователем вариантов ответа.
+     *
      * @param inputedValue - введенное значение.
      * @return true - валидное значение.
      */
@@ -220,8 +221,8 @@ public class TestingTakingTheTest
                 int inputedValueElement = (int) inputedValue.charAt(j) - TestingConst.ZERO_NUMBER_IN_CHAR;
 
                 if (inputedValueElement < 1 ||
-                    inputedValueElement > answerOptionsCount  ||
-                    inputedValueElementList.contains(inputedValueElement))
+                        inputedValueElement > answerOptionsCount ||
+                        inputedValueElementList.contains(inputedValueElement))
                 {
                     return false;
                 }

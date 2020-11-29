@@ -1,4 +1,4 @@
-/*Version 0.11.0*/
+﻿/*Version 0.12.0*/
 
 /**
  * Главный класс приложения по тестированию.
@@ -10,10 +10,7 @@ public class TestingMain
      */
     public TestingMain() throws Exception
     {
-        System.out.println("Здравствуйте! Добро пожаловать в приложение по тестированию!");
-
-        TestingUserService userService = new TestingUserService();
-        userService.selectActionInSystem();
+        TestingUserDialog dialog = new TestingUserDialog();
     }
     public  static  void  main (String [] args) throws Exception
     {
