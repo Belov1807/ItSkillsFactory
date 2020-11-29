@@ -40,7 +40,11 @@ public class TestingTakingTheTest
      */
     private void outQuestionsList()
     {
-        Scanner in;
+// Часть используемых методов больше не существует.
+// Будет реализация при использовании класса диалога с пользователем
+// поэтому код закомментирован.
+
+        /*Scanner in;
         String inputedValue = new String();
         boolean isValidInputedValue = false;
 
@@ -67,37 +71,19 @@ public class TestingTakingTheTest
 
         try
         {
-            if (inputedValue.charAt(0) == TestingConst.ONE)
-            {
-                System.out.println("Укажите путь к xml - файлу.");
-                in = new Scanner(System.in);
-
-                String xmlFilePath = in.nextLine();
-
-                try
-                {
-                    tests = new TestingTestService(xmlFilePath);
-                } catch (FileNotFoundException exception)
-                {
-                    System.err.println(exception.getMessage());
-                    outQuestionsList();
-                }
-
-            }
-            else if (inputedValue.charAt(0) == TestingConst.TWO)
+            if (inputedValue.charAt(0) == TestingConst.TWO)
             {
                 tests = new TestingTestService();
             }
 
             int userScores = 0;
 
-            ArrayList testsList = tests.getTestsList();
 
-            for (int t = 0; t < testsList.size(); t++)
+            for (int t = 0; t < tests.getTestsCount(); t++)
             {
-                TestingTheTest test = tests.getTestsListAt(t);
+                //TestingTheTest test = tests.getTestsListAt(t);
 
-                System.out.println("Тест " + test.getTestName());
+                System.out.println("Тест " + tests.getTestNameAt(t));
                 for (int i = 0; i < test.getQuestionsList().size(); i++)
                 {
                     question = test.getQuestionsList().get(i);
@@ -182,7 +168,7 @@ public class TestingTakingTheTest
         {
             System.err.println(exception.getMessage());
             outQuestionsList();
-        }
+        }*/
 
     }
 

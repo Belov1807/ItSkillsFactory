@@ -1,5 +1,5 @@
 /**
- * Интерфейс пользователя.
+ * Интерфейс сервиса взаимодействия с пользователем.
  */
 public interface TestingUserServiceInterface
 {

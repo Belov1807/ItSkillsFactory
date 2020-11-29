@@ -1,4 +1,5 @@
-﻿/*Version 0.12.0*/
+/*Version 0.13.0*/
+
 
 /**
  * Главный класс приложения по тестированию.
@@ -8,11 +9,12 @@ public class TestingMain
     /**
      * Конструктор.
      */
-    public TestingMain() throws Exception
+    public TestingMain()
     {
         TestingUserDialog dialog = new TestingUserDialog();
     }
-    public  static  void  main (String [] args) throws Exception
+
+    public static void main (String [] args)
     {
         new TestingMain();
     }
