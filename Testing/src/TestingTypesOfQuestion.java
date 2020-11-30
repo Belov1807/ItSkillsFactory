@@ -63,7 +63,7 @@ public enum TestingTypesOfQuestion
         return type;
     }
     /**
-     * Возвращает информация для пользователя.
+     * Возвращает информацию для пользователя.
      * @return информация для пользователя
      */
     public String getUserInfo()

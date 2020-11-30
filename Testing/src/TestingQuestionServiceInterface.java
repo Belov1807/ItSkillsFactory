@@ -34,9 +34,17 @@ public interface TestingQuestionServiceInterface
 
     String getTypeAt(int index);
 
+    String getTypeUserInfoAt(int index);
+
+    int getMaxRightAnswerOptionsCountAt(int index);
+
+    int getMinRightAnswerOptionsCountAt(int index);
+
     ArrayList<String> getAnswerOptionsAt(int index);
 
     ArrayList<String> getRightAnswerOptionsAt(int index);
 
     void renameQuestionTextAt(int index, String textQuestion);
+
+    int getScoreQuestionAt(int index);
 }

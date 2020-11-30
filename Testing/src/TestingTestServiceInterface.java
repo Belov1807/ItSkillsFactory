@@ -37,4 +37,6 @@ public interface TestingTestServiceInterface
     void removeTestAt(int index);
 
     TestingQuestionServiceInterface getQuestionServiceTestAt(int index);
+
+    int getAllScores();
 }

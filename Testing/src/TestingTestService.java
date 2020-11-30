@@ -93,20 +93,20 @@ public class TestingTestService implements TestingTestServiceInterface
         }
     }
 
-    public void addQuestion(int index, TestingQuestion questionq) throws Exception
-    {
-//        testsList.get(index).addQuestion();
-    }
-
-    private void addQuestionsFromFile(TestingQuestionServiceInterface question)
-    {
-//        TestingQuestionServiceInterface question = new TestingQuestionService();
-//        question.addQuestionsListFromXml("fg");
-    }
-
     @Override
     public TestingQuestionServiceInterface getQuestionServiceTestAt(int index)
     {
         return testsList.get(index).getQuestionService();
+    }
+
+    @Override
+    public int getAllScores()
+    {int scores = 0;
+        for (int i = 0; i < question.getQuestionsCount(); i ++)
+        {
+            scores += question.getScoreQuestionAt(i);
+        }
+
+        return scores;
     }
 }

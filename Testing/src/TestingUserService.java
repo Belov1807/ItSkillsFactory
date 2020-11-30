@@ -47,22 +47,30 @@ public class TestingUserService implements TestingUserServiceInterface
         TestingUser userTryingLogin = new TestingUser(login);
         userTryingLogin.setPassword(password);
 
+        boolean userFound = false;
+        boolean passwordIscCorrect = false;
+
         for (int i = 0; i < usersList.size(); i++)
         {
             TestingUser userAtList = usersList.get(i);
-            if (userAtList.getLogin().equals(userTryingLogin.getLogin()) == false)
+            if (userAtList.getLogin().equals(userTryingLogin.getLogin()) == true)
             {
-                throw new Exception("Пользователь не найден");
+                userFound = true;
             }
-            else if (userAtList.getPassword().equals(userTryingLogin.getPassword()) == false)
+            if (userFound == true && userAtList.getPassword().equals(userTryingLogin.getPassword()) == true)
             {
-                throw new Exception("Вы ввели неверный пароль");
-            }
-            else if (userAtList.getLogin().equals(userTryingLogin.getLogin()) == true &&
-                    userAtList.getPassword().equals(userTryingLogin.getPassword()) == true)
-            {
+                passwordIscCorrect = true;
                 user = userAtList;
             }
+        }
+
+        if (userFound == false)
+        {
+            throw new Exception("Пользователь не найден");
+        }
+        else if (passwordIscCorrect == false)
+        {
+            throw new Exception("Вы ввели неверный пароль");
         }
     }
 
@@ -70,11 +78,20 @@ public class TestingUserService implements TestingUserServiceInterface
      * Регистрация пользователя.
      */
     @Override
-    public void register()
+    public void register() throws Exception
     {
         TestingUser registerUser = new TestingUser(login);
         registerUser.setPassword(password);
         registerUser.setName(name);
+
+        for (int i = 0; i < usersList.size(); i++)
+        {
+            TestingUser userAtList = usersList.get(i);
+            if (userAtList.getLogin().equals(registerUser.getLogin()) == true)
+            {
+                throw new Exception("Пользователь с таким логином уже есть в системе.");
+            }
+        }
 
         usersList.add(registerUser);
     }
@@ -137,5 +154,15 @@ public class TestingUserService implements TestingUserServiceInterface
     public String getLogin()
     {
         return user.getLogin();
+    }
+
+    /**
+     * Возвращает является ли пользователь администратором.
+     * @return true - пользователь является администратором.
+     */
+    @Override
+    public boolean isUserIsAdmin()
+    {
+        return user.isUserIsAdmin();
     }
 }

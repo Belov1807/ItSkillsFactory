@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -5,6 +6,7 @@ import java.util.Scanner;
  */
 public class TestingUserDialog
 {
+    TestingTakingTheTest takingTest = new TestingTakingTheTest();
     /**
      * Интерфейс сервиса взаимодействия с пользователем.
      */
@@ -56,14 +58,17 @@ public class TestingUserDialog
 
     /**
      * Выводит сообщение.
+     *
      * @param textMessage - текст сообщения.
      */
     private void print(String textMessage)
     {
         System.out.println(textMessage);
     }
+
     /**
      * Выводит сообщение об ошибке.
+     *
      * @param textMessage - текст сообщения.
      */
     private void printErr(String textMessage)
@@ -80,6 +85,7 @@ public class TestingUserDialog
         scanner = new Scanner(System.in);
         inputedString = scanner.nextLine();
     }
+
     /**
      * Ввод символа.
      */
@@ -88,6 +94,7 @@ public class TestingUserDialog
         inputString();
         inputedSymbol = inputedString.charAt(0);
     }
+
     /**
      * Ввод целого числа.
      */
@@ -132,13 +139,11 @@ public class TestingUserDialog
             if (inputedSymbol == TestingConst.ONE)
             {
                 loginDialog();
-            }
-            else if (inputedSymbol == TestingConst.TWO)
+            } else if (inputedSymbol == TestingConst.TWO)
             {
                 registerDialog();
             }
-        }
-        catch (Exception exception)
+        } catch (Exception exception)
         {
             printErr(exception.getMessage());
             selectActionInSystemSelectionDialog();
@@ -162,6 +167,7 @@ public class TestingUserDialog
 
     /**
      * Диалог входа в систему.
+     *
      * @throws Exception - выбрасывыемое исключение.
      */
     private void loginDialog() throws Exception
@@ -179,7 +185,7 @@ public class TestingUserDialog
     /**
      * Диалог регистрации в системе.
      */
-    private void registerDialog()
+    private void registerDialog() throws Exception
     {
         print("Регистрация");
 
@@ -189,10 +195,13 @@ public class TestingUserDialog
         user.setName(inputedString);
 
         user.register();
+
+        selectActionInSystemSelectionDialog();
     }
 
     /**
      * Диалог выбора после входа пользователя в систему.
+     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void actionsAfterLoginSelectionDialog() throws Exception
@@ -204,15 +213,15 @@ public class TestingUserDialog
         if (inputedSymbol == TestingConst.ONE)
         {
             showTestsList();
-        }
-        else if (inputedSymbol == TestingConst.ZERO)
+        } else if (inputedSymbol == TestingConst.ZERO)
         {
-            //return;
+            selectActionInSystemSelectionDialog();
         }
     }
 
     /**
      * Диалог выбора теста.
+     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void selectTestDialog() throws Exception
@@ -225,6 +234,7 @@ public class TestingUserDialog
 
     /**
      * Диалог добавление теста.
+     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void addTestDialog() throws Exception
@@ -240,6 +250,7 @@ public class TestingUserDialog
 
     /**
      * Выводит список тестов.
+     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void showTestsList() throws Exception
@@ -248,7 +259,7 @@ public class TestingUserDialog
         {
             print("Нет доступных тестов для просмотра");
         }
-        for (int i = 0; i < test.getTestsCount(); i ++)
+        for (int i = 0; i < test.getTestsCount(); i++)
         {
             print((i + 1) + " " + test.getTestNameAt(i));
         }
@@ -257,73 +268,209 @@ public class TestingUserDialog
 
     /**
      * Возможные действия с тестом.
+     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void actionsTestSelectionDialog() throws Exception
     {
-        print("1 Добавить тест в список");
+        print("1 Выбрать тест из списка");
+
+        if (user.isUserIsAdmin() == true)
+        {
+            print("2 Добавить тест в список");
+        }
         if (test.getTestsCount() != 0)
         {
-            print("2 Выбрать тест из списка");
+
         }
         print("\n0 Назад");
 
         inputSymbol();
 
-        if (inputedSymbol == TestingConst.ONE)
-        {
-            addTestDialog();
-        }
-        else if (inputedSymbol == TestingConst.TWO)
+        if (test.getTestsCount() != 0 && inputedSymbol == TestingConst.ONE)
         {
             selectTestDialog();
-        }
-        else if (inputedSymbol == TestingConst.ZERO)
+        } else if (test.getTestsCount() == 0 && inputedSymbol == TestingConst.ONE)
         {
-            return;
+            print("Список тестов пуст");
+            actionsAfterLoginSelectionDialog();
+        } else if (inputedSymbol == TestingConst.TWO)
+        {
+            addTestDialog();
+        } else if (inputedSymbol == TestingConst.ZERO)
+        {
+            actionsAfterLoginSelectionDialog();
         }
     }
 
     /**
      * Диалог выбора выбранного теста.
+     *
      * @param indexTest - индекс выбранного теста.
      * @throws Exception - выбрасываемое исключение.
      */
     private void selectedTestSelectionDialog(int indexTest) throws Exception
     {
-        print("1 Просмотреть список вопросов в тесте ");
-        print("2 Добавить в тест список вопросов из xml-файла");
-        print("3 Переименовать тест");
-        print("4 Удалить тест");
-        print("\n0 Назад к списку тестов");
+        if (user.isUserIsAdmin() == true)
+        {
+            print("1 Просмотреть список вопросов в тесте ");
+            print("2 Добавить в тест список вопросов из xml-файла");
+            print("3 Переименовать тест");
+            print("4 Удалить тест");
+            print("\n0 Назад к списку тестов");
 
-        inputSymbol();
+            inputSymbol();
 
-        if (inputedSymbol == TestingConst.ONE)
+            if (inputedSymbol == TestingConst.ONE)
+            {
+                showQuestionsList(indexTest);
+            } else if (inputedSymbol == TestingConst.TWO)
+            {
+                addQuestionsFromFileDialog(indexTest);
+                selectedTestSelectionDialog(indexTest);
+            } else if (inputedSymbol == TestingConst.THREE)
+            {
+                renameTestDialog(indexTest);
+            } else if (inputedSymbol == TestingConst.FOR)
+            {
+                removeTestSelectionDialog(indexTest);
+            } else if (inputedSymbol == TestingConst.ZERO)
+            {
+                showTestsList();
+            }
+        } else
         {
-            showQuestionsList(indexTest);
-        }
-        else if (inputedSymbol == TestingConst.TWO)
-        {
-            addQuestionsFromFileDialog(indexTest);
-            selectedTestSelectionDialog(indexTest);
-        }
-        else if (inputedSymbol == TestingConst.THREE)
-        {
-            renameTestDialog(indexTest);
-        }
-        else if (inputedSymbol == TestingConst.FOR)
-        {
-            removeTestSelectionDialog(indexTest);
-        }
-        else if (inputedSymbol == TestingConst.ZERO)
-        {
-            showTestsList();
+            print("1 Пройти тест");
+            print("\n0 Назад ");
+
+            inputSymbol();
+
+            if (inputedSymbol == TestingConst.ONE)
+            {
+                takingTestDialog(indexTest);
+            } else if (inputedSymbol == TestingConst.ZERO)
+            {
+                addQuestionsFromFileDialog(indexTest);
+                selectedTestSelectionDialog(indexTest);
+            }
         }
     }
 
     /**
+     * Диалог прохождения теста
+     *
+     * @param indexTest - индекс теста.
+     */
+    private void takingTestDialog(int indexTest) throws Exception
+    {
+        questionService = test.getQuestionServiceTestAt(indexTest);
+
+        takingTest.setQuestion(questionService);
+
+        for (int i = 0; i < questionService.getQuestionsCount(); i++)
+        {
+            print("\nВопрос № " + (i + 1));
+            print(questionService.getQuestionTextAt(i));
+
+            int answerCount = questionService.getAnswerOptionsAt(i).size();
+
+            for (int j = 0; j < answerCount; j++)
+            {
+                if (answerCount != 1)
+                {
+                    print("\nВариант № " + (j + 1) + " " + questionService.getAnswerOptionsAt(i).get(j));
+                }
+            }
+            print(questionService.getTypeUserInfoAt(i));
+            inputString();
+
+            if (answerCount != 1)
+            {
+                while (!isValidInputedValue(i))
+                {
+                    printErr("Неккоректный ввод");
+                    print(questionService.getTypeUserInfoAt(i));
+                    inputString();
+                }
+            } else
+            {
+                takingTest.addUserAnswers(inputedString);
+            }
+
+            takingTest.checkRightAnswer(i);
+
+            if (takingTest.isRightAnswerOption() == true)
+            {
+                print("Ответ верный");
+            } else
+            {
+                print("Ответ неверный");
+            }
+        }
+        print("Тест завершен!");
+        print("У Вас " + (100 * takingTest.getUserScores() / test.getAllScores()) + "% правильных ответов.");
+
+        actionsAfterLoginSelectionDialog();
+    }
+
+
+    /**
+     * Проверка валидности введенного вариата ответа.
+     *
+     * @param indexQuestion
+     * @return
+     */
+    private boolean isValidInputedValue(int indexQuestion)
+    {
+        int answerCount = questionService.getAnswerOptionsAt(indexQuestion).size();
+
+        int inputedValueCount = inputedString.length();
+
+        ArrayList<Integer> inputedValueElementList = new ArrayList();
+
+        if (inputedValueCount > answerCount * 2 - 1 ||
+                inputedValueCount > questionService.getMaxRightAnswerOptionsCountAt(indexQuestion) ||
+                inputedValueCount < questionService.getMinRightAnswerOptionsCountAt(indexQuestion))
+        {
+            return false;
+        }
+
+        for (int j = 0; j < inputedValueCount; j++)
+        {
+            //Каждый второй введенный символ должен быть запятой (только если он не последний).
+            if (j % 2 != 0)
+            {
+                if (inputedString.charAt(j) != TestingConst.COMMA ||
+                        inputedString.charAt(inputedValueCount - 1) == TestingConst.COMMA)
+                {
+                    return false;
+                }
+            } else
+            {
+                int inputedValueElement = (int) inputedString.charAt(j) - TestingConst.ZERO_NUMBER_IN_CHAR;
+
+                if (inputedValueElement < 1 ||
+                        inputedValueElement > answerCount ||
+                        inputedValueElementList.contains(inputedValueElement))
+                {
+                    return false;
+                } else
+                {
+                    inputedValueElementList.add(inputedValueElement);
+                }
+                for (int i = 0; i < inputedValueElementList.size(); i++)
+                {
+                    takingTest.addUserAnswers(questionService.getAnswerOptionsAt(indexQuestion).
+                            get(inputedValueElementList.get(i) - 1));
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Диалог переименования теста.
+     *
      * @param indexTest - индекс теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -342,6 +489,7 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора удаления теста.
+     *
      * @param indexTest индекс теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -360,8 +508,7 @@ public class TestingUserDialog
             print("Тест \"" + testName + "\" был успешно удален");
 
             showTestsList();
-        }
-        else if (inputedSymbol == TestingConst.TWO)
+        } else if (inputedSymbol == TestingConst.TWO)
         {
             print("Тест \"" + testName + "\" не был удален");
 
@@ -383,13 +530,12 @@ public class TestingUserDialog
             questionService = test.getQuestionServiceTestAt(indexTest);
             questionService.addQuestionsListFromXml(inputedString);
 
-            for (int i = 0; i < questionService.getQuestionsXmlCount(); i ++)
+            for (int i = 0; i < questionService.getQuestionsXmlCount(); i++)
             {
                 print((i + 1) + " " + questionService.getQuestionTextFromXmlAt(i));
             }
             print("Список вопросов добавлен");
-        }
-        catch (Exception exception)
+        } catch (Exception exception)
         {
             printErr(exception.getMessage());
         }
@@ -407,7 +553,7 @@ public class TestingUserDialog
         {
             print("В этом тесте еще нет вопросов, но вы можете их добавить");
         }
-        for (int i = 0; i < questionsCount; i ++)
+        for (int i = 0; i < questionsCount; i++)
         {
             print((i + 1) + " " + questionService.getQuestionTextAt(i));
         }
@@ -430,12 +576,10 @@ public class TestingUserDialog
         if (inputedSymbol == TestingConst.ONE)
         {
             addQuestionDialog();
-        }
-        else if (questionService.getQuestionsCount() != 0 &&inputedSymbol == TestingConst.TWO)
+        } else if (questionService.getQuestionsCount() != 0 && inputedSymbol == TestingConst.TWO)
         {
             showQuestion();
-        }
-        else if (inputedSymbol == TestingConst.ZERO)
+        } else if (inputedSymbol == TestingConst.ZERO)
         {
             System.out.println("Назад к тесту ");
         }
@@ -452,7 +596,7 @@ public class TestingUserDialog
 
         print("Выберите сложность вопроса:");
 
-        for (int i = 0; i < TestingComplexityOfTheQuestion.complexitysCount(); i ++)
+        for (int i = 0; i < TestingComplexityOfTheQuestion.complexitysCount(); i++)
         {
             print((i + 1 + " ") + TestingComplexityOfTheQuestion.getComplexityNameAt(i));
         }
@@ -475,14 +619,14 @@ public class TestingUserDialog
         print("Вид вопроса: " + questionService.getTypeAt(inputedNumber));
         print("Варианты ответов:");
 
-        for (int i = 0; i < questionService.getAnswerOptionsAt(inputedNumber).size(); i ++)
+        for (int i = 0; i < questionService.getAnswerOptionsAt(inputedNumber).size(); i++)
         {
             print((i + 1) + " " + questionService.getAnswerOptionsAt(inputedNumber).get(i));
         }
 
         print("Правильный ответ:");
 
-        for (int i = 0; i < questionService.getRightAnswerOptionsAt(inputedNumber).size(); i ++)
+        for (int i = 0; i < questionService.getRightAnswerOptionsAt(inputedNumber).size(); i++)
         {
             print(questionService.getRightAnswerOptionsAt(inputedNumber).get(i));
         }
@@ -514,6 +658,7 @@ public class TestingUserDialog
 
     /**
      * Удалить вопрос.
+     *
      * @param indexQuestion
      */
     private void removeQuestion(int indexQuestion)
@@ -527,8 +672,7 @@ public class TestingUserDialog
         {
             questionService.removeQuestionAt(indexQuestion);
             print("Вопрос был успешно удален");
-        }
-        else if (inputedSymbol == TestingConst.TWO)
+        } else if (inputedSymbol == TestingConst.TWO)
         {
             print("Вопрос не был удален");
         }
@@ -536,6 +680,7 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора редактировния вопроса.
+     *
      * @param indexQuestion - индекс вопроса.
      */
     private void editQuestionSelectionDialog(int indexQuestion)
@@ -553,6 +698,7 @@ public class TestingUserDialog
 
     /**
      * Диалог изменения текста вопроса.
+     *
      * @param indexQuestion - индекс вопроса.
      */
     private void renameQueustionTextDialog(int indexQuestion)

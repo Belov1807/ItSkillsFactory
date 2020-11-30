@@ -129,6 +129,29 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
     }
 
     /**
+     * Возвращает информацию для пользователя о типе вопроса.
+     * @param index - индекс вопроса.
+     * @return информация для пользователя о типе вопроса.
+     */
+    @Override
+    public String getTypeUserInfoAt(int index)
+    {
+        return getQuestionAt(index).getType().getUserInfo();
+    }
+
+    @Override
+    public int getMaxRightAnswerOptionsCountAt(int index)
+    {
+        return getQuestionAt(index).getType().getMaxRightAnswerOptionsCount();
+    }
+
+    @Override
+    public int getMinRightAnswerOptionsCountAt(int index)
+    {
+        return getQuestionAt(index).getType().getMinRightAnswerOptionsCount();
+    }
+
+    /**
      * Возвращает список вариантов ответа по индексу вопроса.
      * @param index - индекс вопроса.
      * @return список вариантов ответа.
@@ -159,5 +182,11 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
     public void renameQuestionTextAt(int index, String textQuestion)
     {
         getQuestionAt(index).setQuestionText(textQuestion);
+    }
+
+    @Override
+    public int getScoreQuestionAt(int index)
+    {
+        return getQuestionAt(index).getComplexity().getScore();
     }
 }

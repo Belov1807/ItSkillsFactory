@@ -11,7 +11,7 @@ public interface TestingUserServiceInterface
     /**
      * Регистрация пользователя.
      */
-    public void register();
+    public void register() throws Exception;
 
     /**
      * Выход из системы.
@@ -36,5 +36,11 @@ public interface TestingUserServiceInterface
      */
     public void setName(String name);
 
+    /**
+     * Возвращает логин пользователя.
+     * @return логин пользователя.
+     */
     String getLogin();
+
+    boolean isUserIsAdmin();
 }
