@@ -98,7 +98,7 @@ public class TestingUser
 
     /**
      * Возвращает статус пользователя.
-     * @return -статус пользователя.
+     * @return - статус пользователя.
      */
     public String getStatusUser()
     {

@@ -35,4 +35,6 @@ public interface TestingUserServiceInterface
      * @param name - имя пользователя.
      */
     public void setName(String name);
+
+    String getLogin();
 }

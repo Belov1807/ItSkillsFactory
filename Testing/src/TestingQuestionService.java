@@ -4,72 +4,71 @@ import java.util.Scanner;
 /**
  * Сервис по работе с вопросами.
  */
-public class TestingQuestionService
+public class TestingQuestionService implements TestingQuestionServiceInterface
 {
     /**
      * Список вопросов.
      */
     private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
 
+    private ArrayList<TestingQuestion> questionsListFromXml = new ArrayList<TestingQuestion>();
+
+
     /**
      * Добавить вопрос.
      */
-    private  void addQuestion()
+    @Override
+    public void addQuestion(TestingQuestion question)
     {
-
-        System.out.println("\nВведите текст вопроса");
-        Scanner in = new Scanner(System.in);
-        String questionText = in.nextLine();
-
-        System.out.println("\nВыберите сложность вопроса:\n");
-
-        for (int i = 0; i < TestingComplexityOfTheQuestion.complexitysCount(); i ++)
-        {
-            System.out.println((i + 1 + " ") + TestingComplexityOfTheQuestion.getComplexityNameAt(i));
-        }
-
-        System.out.println("\nВведите номер сложности вопроса");
-        in = new Scanner(System.in);
-
-        TestingComplexityOfTheQuestion complexity = TestingComplexityOfTheQuestion.getComplexityOfTheQuestionAt(in.nextInt()  - 1);
-        System.out.println("Сложность = " + complexity.getComplexityOfTheQuestion());
     }
 
     /**
      * Удалить вопрос.
      */
-    private  void removeQuestion(int index)
+    @Override
+    public void removeQuestionAt(int index)
     {
         questionsList.remove(index);
     }
 
     /**
-     * Просмотреть вопрос.
+     * Возвращает текст вопроса из по индексу.
+     * @param index - индекс вопроса.
+     * @return текст вопроса из по индексу.
      */
-    private void showQuestion(int index)
+    @Override
+    public String getQuestionTextAt(int index)
     {
-        showQuestionText(index);
-        System.out.print("Сложность вопроса: ");
-        System.out.println(getQuestionsListAt(index).getComplexity().getComplexityOfTheQuestion());
-        System.out.print("Вид вопроса: ");
-        System.out.println(getQuestionsListAt(index).getType().getType());
-
-        System.out.print("Автор вопроса: ");
-        System.out.println(getQuestionsListAt(index).getAuthor().getLogin());
-        showAnswerOptions(index);
-        showRightAnswerOptions(index);
+        return questionsList.get(index).getQuestionText();
     }
 
-    public TestingQuestion getQuestionsListAt(int index)
+    /**
+     * Возвращает текст вопроса из xml-файла по индексу.
+     * @param index - индекс вопроса.
+     * @return текст вопроса из xml-файла по индексу.
+     */
+    @Override
+    public String getQuestionTextFromXmlAt(int index)
     {
-        return questionsList.get(index);
+        return questionsListFromXml.get(index).getQuestionText();
+    }
+
+    /**
+     * Возвращает количество вопросов в xml-файле.
+     * @return
+     */
+    @Override
+    public int getQuestionsXmlCount()
+    {
+       return questionsListFromXml.size();
     }
 
     /**
      * Возвращает количество вопросов в тесте.
      * @return количество вопросов в тесте.
      */
-    public int questionsCount()
+    @Override
+    public int getQuestionsCount()
     {
         return questionsList.size();
     }
@@ -82,140 +81,83 @@ public class TestingQuestionService
     public void addQuestionsListFromXml(String xmlFilePath) throws Exception
     {
         TestingXmlDataReader reader = new TestingXmlDataReader(xmlFilePath);
-        questionsList.addAll(reader.getQuestionsList());
+        questionsListFromXml = reader.getQuestionsList();
+        questionsList.addAll(questionsListFromXml);
     }
 
     /**
-     * Выводит список вопросов.
+     * Возвращает вопрос по индексу.
+     * @param index - индекс вопроса.
+     * @return вопрос.
      */
-    public void showQuestionsList()
+    private TestingQuestion getQuestionAt(int index)
     {
-        if (questionsCount() == 0)
-        {
-            System.out.print("В этом тесте еще нет вопросов ");
-            System.out.println("но вы можете их добавить");
-        }
-        for (int i = 0; i < questionsCount(); i ++)
-        {
-            System.out.println((i+1) + " " + getQuestionsListAt(i).getQuestionText());
-        }
+        return questionsList.get(index);
     }
 
     /**
-     * Действия после вывода списка вопросов.
+     * Возвращает описание сложности вопроса.
+     * @param index - индекс вопроса.
+     * @return описание сложности вопроса.
      */
-    public void showQuestionsListAndSelect()
+    @Override
+    public String getComplexityAt(int index)
     {
-        showQuestionsList();
-
-        System.out.println("\n1 Добавить вопрос");
-
-        if (questionsCount() != 0)
-        {
-            System.out.println("2 Выбрать вопрос");
-        }
-        System.out.println("\n0 Назад к тесту");
-
-
-        Scanner scanner = new Scanner(System.in);
-
-        String inputedValue = scanner.nextLine();
-
-        if (inputedValue.charAt(0) == TestingConst.ONE)
-        {
-            System.out.println("Добавление вопроса");
-
-            addQuestion();
-        }
-        else if (questionsCount() != 0 && inputedValue.charAt(0) == TestingConst.TWO)
-        {
-            selectQuestion();
-        }
-        if (inputedValue.charAt(0) == '0')
-        {
-            System.out.println("Назад к тесту ");
-        }
+        return getQuestionAt(index).getComplexity().getComplexityOfTheQuestion();
     }
 
     /**
-     * Выводит текст выбранного вопроса.
-     * @param index - индекс вопроса в списке.
+     * Возврашает автора вопроса по индексу вопроса.
+     * @param index - индекс вопроса.
+     * @return автор.
      */
-    public void showQuestionText(int index)
+    @Override
+    public String getAuthorAt(int index)
     {
-        System.out.println("\nВопрос № " + (index + 1));
-        System.out.println(getQuestionsListAt(index).getQuestionText());
+        return getQuestionAt(index).getAuthor();
     }
 
     /**
-     * Выводит список варинтов ответа у выбранного вопроса.
-     * @param index - индекс вопроса в списке.
+     * Возвращает вид вопроса по индексу вопроса.
+     * @param index - индекс вопроса.
+     * @return вид вопроса.
      */
-    public void showAnswerOptions(int index)
+    @Override
+    public String getTypeAt(int index)
     {
-        System.out.println("Варианты ответа:");
-
-        for (int i = 0; i < getQuestionsListAt(index).getAnswerOptionsList().size(); i ++)
-        {
-            System.out.println("\nВариант № " + (i + 1));
-            System.out.println(getQuestionsListAt(index).getAnswerOption(i));
-        }
+        return getQuestionAt(index).getType().getType();
     }
 
     /**
-     * Выводит правильный ответ у выбранного вопроса.
-     * @param index - индекс вопроса в списке.
+     * Возвращает список вариантов ответа по индексу вопроса.
+     * @param index - индекс вопроса.
+     * @return список вариантов ответа.
      */
-    public void showRightAnswerOptions(int index)
+    @Override
+    public ArrayList<String> getAnswerOptionsAt(int index)
     {
-        System.out.println("\nПравильный ответ:");
-
-        for (int i = 0; i < getQuestionsListAt(index).getRightAnswerOptionsList().size(); i ++)
-        {
-            System.out.println(getQuestionsListAt(index).getRightAnswerOptionsList().get(i));
-        }
+        return getQuestionAt(index).getAnswerOptionsList();
     }
 
     /**
-     * Выбор вопроса.
+     * Возвращает список правильных вариантов ответа по индексу вопроса.
+     * @param index - индекс вопроса.
+     * @return список правильных вариантов ответа.
      */
-    public void selectQuestion()
+    @Override
+    public ArrayList<String> getRightAnswerOptionsAt(int index)
     {
-        System.out.println("Введите номер вопроса который хотите выбрать");
-
-        Scanner scanner = new Scanner(System.in);
-        int inputedValue = scanner.nextInt();
-
-        showQuestion( inputedValue - 1);
-
-        actionsOnTheQuestion(inputedValue - 1);
+        return getQuestionAt(index).getRightAnswerOptionsList();
     }
 
     /**
-     * Действия над выбранным вопросом.
+     * Устанавливает текст вопрос
      * @param index
+     * @param textQuestion
      */
-    public void actionsOnTheQuestion(int index)
+    @Override
+    public void renameQuestionTextAt(int index, String textQuestion)
     {
-        System.out.println("\n1 Редактировать вопрос");
-        System.out.println("2 Удалить вопрос");
-        System.out.println("\n0 Назад к списку вопросов");
-
-        Scanner scanner = new Scanner(System.in);
-        String inputedValue = scanner.nextLine();
-
-        if (inputedValue.charAt(0) == TestingConst.ONE)
-        {
-
-        }
-        else if (inputedValue.charAt(0) == TestingConst.TWO)
-        {
-            questionsList.remove(index);
-            System.out.println("Вопрос удален из теста");
-        }
-        else if (inputedValue.charAt(0) == '0')
-        {
-            showQuestionsListAndSelect();
-        }
+        getQuestionAt(index).setQuestionText(textQuestion);
     }
 }

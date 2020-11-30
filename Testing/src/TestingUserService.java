@@ -128,4 +128,14 @@ public class TestingUserService implements TestingUserServiceInterface
     {
         this.name = name;
     }
+
+    /**
+     * Возвращает логин текущего пользователя.
+     * @return логин пользователя.
+     */
+    @Override
+    public String getLogin()
+    {
+        return user.getLogin();
+    }
 }

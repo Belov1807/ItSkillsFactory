@@ -35,4 +35,6 @@ public interface TestingTestServiceInterface
      * Удаляет тест по индексу.
      */
     void removeTestAt(int index);
+
+    TestingQuestionServiceInterface getQuestionServiceTestAt(int index);
 }

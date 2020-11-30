@@ -105,10 +105,9 @@ public class TestingXmlDataReader
                 throw new Exception("Ошибка чтения из файла. Некорректная сложность вопроса.");
             }
 
-            TestingUser author = new TestingUser(element.getAttribute(TestingConst.AUTHOR));
-
             TestingQuestion question = new TestingQuestion(element.getAttribute(TestingConst.QUESTION_TEXT),
-                    TestingComplexityOfTheQuestion.valueOf(element.getAttribute(TestingConst.COMPLEXITY)), author);
+                    TestingComplexityOfTheQuestion.valueOf(element.getAttribute(TestingConst.COMPLEXITY)),
+                    (element.getAttribute(TestingConst.AUTHOR)));
 
             for (int j = 0; j < answerOptionsNodeList.getLength(); j++)
             {
@@ -127,7 +126,6 @@ public class TestingXmlDataReader
 
     /**
      * Проверяет наличие аттрибута в файле.
-     *
      * @param attribute - аттрибут.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -141,7 +139,6 @@ public class TestingXmlDataReader
 
     /**
      * Возвращает список вопросов.
-     *
      * @return список вопросов.
      */
     public ArrayList<TestingQuestion> getQuestionsList()
@@ -151,7 +148,6 @@ public class TestingXmlDataReader
 
     /**
      * Возвращает имя теста.
-     *
      * @return имя теста.
      */
     public String getTestName()

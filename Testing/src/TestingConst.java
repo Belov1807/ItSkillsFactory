@@ -29,8 +29,12 @@ public class TestingConst
 
     // Символы.
     public static final char COMMA = ',';
+
     public static final char ONE = '1';
     public static final char TWO = '2';
+    public static final char THREE = '3';
+    public static final char FOR = '4';
+    public static final char ZERO = '0';
 
     // Целочисленные переменные.
     public static final int ZERO_NUMBER_IN_CHAR = 48;

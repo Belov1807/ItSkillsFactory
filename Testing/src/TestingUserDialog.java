@@ -14,6 +14,11 @@ public class TestingUserDialog
      */
     private TestingTestServiceInterface test = null;
     /**
+     * Интерфейс сервиса по работе с вопросами.
+     */
+    private TestingQuestionServiceInterface questionService = null;
+
+    /**
      * Сканнер.
      */
     private Scanner scanner = null;
@@ -200,9 +205,9 @@ public class TestingUserDialog
         {
             showTestsList();
         }
-        else if (inputedSymbol == '0')
+        else if (inputedSymbol == TestingConst.ZERO)
         {
-            return;
+            //return;
         }
     }
 
@@ -256,21 +261,24 @@ public class TestingUserDialog
      */
     private void actionsTestSelectionDialog() throws Exception
     {
-        print("1 Выбрать тест из списка");
-        print("2 Добавить тест в список");
+        print("1 Добавить тест в список");
+        if (test.getTestsCount() != 0)
+        {
+            print("2 Выбрать тест из списка");
+        }
         print("\n0 Назад");
 
         inputSymbol();
 
         if (inputedSymbol == TestingConst.ONE)
         {
-            selectTestDialog();
+            addTestDialog();
         }
         else if (inputedSymbol == TestingConst.TWO)
         {
-            addTestDialog();
+            selectTestDialog();
         }
-        else if (inputedSymbol == '0')
+        else if (inputedSymbol == TestingConst.ZERO)
         {
             return;
         }
@@ -293,21 +301,22 @@ public class TestingUserDialog
 
         if (inputedSymbol == TestingConst.ONE)
         {
-            selectTestDialog();
+            showQuestionsList(indexTest);
         }
         else if (inputedSymbol == TestingConst.TWO)
         {
-            return;
+            addQuestionsFromFileDialog(indexTest);
+            selectedTestSelectionDialog(indexTest);
         }
-        else if (inputedSymbol == '3')
+        else if (inputedSymbol == TestingConst.THREE)
         {
             renameTestDialog(indexTest);
         }
-        else if (inputedSymbol == '4')
+        else if (inputedSymbol == TestingConst.FOR)
         {
             removeTestSelectionDialog(indexTest);
         }
-        else if (inputedSymbol == '0')
+        else if (inputedSymbol == TestingConst.ZERO)
         {
             showTestsList();
         }
@@ -359,5 +368,198 @@ public class TestingUserDialog
             selectedTestSelectionDialog(indexTest);
         }
 
+    }
+
+    /**
+     * Диалог добавления списка вопросов из файла.
+     */
+    private void addQuestionsFromFileDialog(int indexTest) throws Exception
+    {
+        print("Введите путь к файлу");
+        inputString();
+
+        try
+        {
+            questionService = test.getQuestionServiceTestAt(indexTest);
+            questionService.addQuestionsListFromXml(inputedString);
+
+            for (int i = 0; i < questionService.getQuestionsXmlCount(); i ++)
+            {
+                print((i + 1) + " " + questionService.getQuestionTextFromXmlAt(i));
+            }
+            print("Список вопросов добавлен");
+        }
+        catch (Exception exception)
+        {
+            printErr(exception.getMessage());
+        }
+    }
+
+    /**
+     * Выводит список вопросов.
+     */
+    private void showQuestionsList(int indexTest)
+    {
+        questionService = test.getQuestionServiceTestAt(indexTest);
+        int questionsCount = questionService.getQuestionsCount();
+
+        if (questionsCount == 0)
+        {
+            print("В этом тесте еще нет вопросов, но вы можете их добавить");
+        }
+        for (int i = 0; i < questionsCount; i ++)
+        {
+            print((i + 1) + " " + questionService.getQuestionTextAt(i));
+        }
+
+        questionsListSelectionDialog();
+    }
+
+    private void questionsListSelectionDialog()
+    {
+        print("1 Добавить вопрос");
+
+        if (questionService.getQuestionsCount() != 0)
+        {
+            print("2 Выбрать вопрос");
+        }
+        print("\n0 Назад к тесту");
+
+        inputSymbol();
+
+        if (inputedSymbol == TestingConst.ONE)
+        {
+            addQuestionDialog();
+        }
+        else if (questionService.getQuestionsCount() != 0 &&inputedSymbol == TestingConst.TWO)
+        {
+            showQuestion();
+        }
+        else if (inputedSymbol == TestingConst.ZERO)
+        {
+            System.out.println("Назад к тесту ");
+        }
+    }
+
+    /**
+     * Диалог добавления вопроса.
+     */
+    private void addQuestionDialog()
+    {
+        print("Введите текст вопроса");
+        inputString();
+        String questionText = inputedString;
+
+        print("Выберите сложность вопроса:");
+
+        for (int i = 0; i < TestingComplexityOfTheQuestion.complexitysCount(); i ++)
+        {
+            print((i + 1 + " ") + TestingComplexityOfTheQuestion.getComplexityNameAt(i));
+        }
+
+        print("Введите номер сложности вопроса");
+        inputNumber();
+
+        TestingComplexityOfTheQuestion complexity = TestingComplexityOfTheQuestion.getComplexityOfTheQuestionAt(inputedNumber);
+        TestingQuestion question = new TestingQuestion(questionText, complexity, user.getLogin());
+    }
+
+    private void showQuestion()
+    {
+        print("Введите номер вопроса");
+        inputNumber();
+
+        print("Текст вопроса: " + questionService.getQuestionTextAt(inputedNumber));
+        print("Сложность вопроса: " + questionService.getComplexityAt(inputedNumber));
+        print("Автор вопроса: " + questionService.getAuthorAt(inputedNumber));
+        print("Вид вопроса: " + questionService.getTypeAt(inputedNumber));
+        print("Варианты ответов:");
+
+        for (int i = 0; i < questionService.getAnswerOptionsAt(inputedNumber).size(); i ++)
+        {
+            print((i + 1) + " " + questionService.getAnswerOptionsAt(inputedNumber).get(i));
+        }
+
+        print("Правильный ответ:");
+
+        for (int i = 0; i < questionService.getRightAnswerOptionsAt(inputedNumber).size(); i ++)
+        {
+            print(questionService.getRightAnswerOptionsAt(inputedNumber).get(i));
+        }
+    }
+
+    /**
+     * Диалог выбора выбранного вопроса.
+     */
+    private void selectiedQuestionSelectionDialog(int indexQuestion)
+    {
+        print("1 Удалить вопрос");
+        print("2 Изменить вопрос");
+        print("\n0 Назад к списку вопросов");
+
+        if (inputedSymbol == TestingConst.ONE)
+        {
+            removeQuestion(indexQuestion);
+        }
+        if (inputedSymbol == TestingConst.TWO)
+        {
+            editQuestionSelectionDialog(indexQuestion);
+        }
+
+        if (inputedSymbol == TestingConst.ZERO)
+        {
+        }
+
+    }
+
+    /**
+     * Удалить вопрос.
+     * @param indexQuestion
+     */
+    private void removeQuestion(int indexQuestion)
+    {
+        print("Вы действительно хотите удалить вопрос ?");
+        print("1 Да");
+        print("2 Нет");
+        inputSymbol();
+
+        if (inputedSymbol == TestingConst.ONE)
+        {
+            questionService.removeQuestionAt(indexQuestion);
+            print("Вопрос был успешно удален");
+        }
+        else if (inputedSymbol == TestingConst.TWO)
+        {
+            print("Вопрос не был удален");
+        }
+    }
+
+    /**
+     * Диалог выбора редактировния вопроса.
+     * @param indexQuestion - индекс вопроса.
+     */
+    private void editQuestionSelectionDialog(int indexQuestion)
+    {
+        print("1 Изменить текст вопроса");
+        print("2 Изменить сложность вопроса");
+        print("3 Изменить вариант ответа");
+        print("0 Назад");
+
+        if (inputedSymbol == TestingConst.ONE)
+        {
+            renameQueustionTextDialog(indexQuestion);
+        }
+    }
+
+    /**
+     * Диалог изменения текста вопроса.
+     * @param indexQuestion - индекс вопроса.
+     */
+    private void renameQueustionTextDialog(int indexQuestion)
+    {
+        print("Введите текст вопроса");
+        inputString();
+
+        questionService.renameQuestionTextAt(indexQuestion, inputedString);
     }
 }

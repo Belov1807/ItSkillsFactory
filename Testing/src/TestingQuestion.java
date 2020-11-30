@@ -31,11 +31,11 @@ public class TestingQuestion
     /**
      * Автор вопроса.
      */
-    private TestingUser author = null;
+    private String author = new String();
 
     TestingQuestion(String questionText,
                     TestingComplexityOfTheQuestion complexity,
-                    TestingUser author)
+                    String author)
     {
         this.questionText = questionText;
         this.complexity = complexity;
@@ -161,8 +161,17 @@ public class TestingQuestion
      * Возвращает автора вопроса.
      * @return автор вопроса.
      */
-    public TestingUser getAuthor()
+    public String getAuthor()
     {
         return author;
+    }
+
+    /**
+     * Устанавливает текст вопроса.
+     * @param questionText - текст вопроса.
+     */
+    public void setQuestionText(String questionText)
+    {
+        this.questionText = questionText;
     }
 }

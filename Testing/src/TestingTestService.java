@@ -5,6 +5,7 @@ import java.util.ArrayList;
  */
 public class TestingTestService implements TestingTestServiceInterface
 {
+    TestingQuestionServiceInterface question;
     /**
      * Список тестов.
      */
@@ -90,5 +91,22 @@ public class TestingTestService implements TestingTestServiceInterface
                 throw new Exception("Тест с названием \"" + testName + "\" уже существует");
             }
         }
+    }
+
+    public void addQuestion(int index, TestingQuestion questionq) throws Exception
+    {
+//        testsList.get(index).addQuestion();
+    }
+
+    private void addQuestionsFromFile(TestingQuestionServiceInterface question)
+    {
+//        TestingQuestionServiceInterface question = new TestingQuestionService();
+//        question.addQuestionsListFromXml("fg");
+    }
+
+    @Override
+    public TestingQuestionServiceInterface getQuestionServiceTestAt(int index)
+    {
+        return testsList.get(index).getQuestionService();
     }
 }

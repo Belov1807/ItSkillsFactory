@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Класс самого теста.
+ * Класс теста.
  */
 public class TestingTheTest
 {
@@ -13,8 +13,8 @@ public class TestingTheTest
     /**
      * Список вопросов.
      */
-    private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
-
+    //private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
+    private TestingQuestionServiceInterface questionService = new TestingQuestionService();
     /**
      * Название теста.
      */
@@ -29,17 +29,17 @@ public class TestingTheTest
 
         setAllScores();
 
-        Collections.shuffle(questionsList);
+        //Collections.shuffle(questionsList);
     }
 
     /**
      * Возвращает список вопросов.
      * @return список вопросов.
      */
-    public ArrayList<TestingQuestion> getQuestionsList()
-    {
-        return questionsList;
-    }
+    //public ArrayList<TestingQuestion> getQuestionsList()
+    //{
+        //return questionsList;
+    //}
 
 
     /**
@@ -47,10 +47,10 @@ public class TestingTheTest
      */
     private void setAllScores()
     {
-        for (int i = 0; i < questionsList.size(); i ++)
-        {
-            allScores += questionsList.get(i).getComplexity().getScore();
-        }
+//        for (int i = 0; i < questionsList.size(); i ++)
+//        {
+//            allScores += questionsList.get(i).getComplexity().getScore();
+//        }
     }
 
     /**
@@ -66,9 +66,9 @@ public class TestingTheTest
      * Добавляет вопрос в список.
      * @param question - вопрос.
      */
-    private void addQuestion(TestingQuestion question)
+    public void addQuestion(TestingQuestion question)
     {
-        questionsList.add(question);
+        //questionsList.add(question);
     }
 
     /**
@@ -84,14 +84,14 @@ public class TestingTheTest
      * Проверяет нет ли в списке вопросов, вопроса без правильного варианта ответа.
      */
     private void chechQuestionsRightAnswer() throws Exception {
-        for (int i = 0; i < questionsList.size(); i ++)
-        {
-            if (questionsList.get(i).isEmptyRightAnswerOptionsList())
-            {
-                throw new Exception("Ошибка построения списка вопросов! В вопросе \"" + questionsList.get(i).getQuestionText()  +
-                    "\" не задан правильный ответ.");
-            }
-        }
+//        for (int i = 0; i < questionsList.size(); i ++)
+//        {
+//            if (questionsList.get(i).isEmptyRightAnswerOptionsList())
+//            {
+//                throw new Exception("Ошибка построения списка вопросов! В вопросе \"" + questionsList.get(i).getQuestionText()  +
+//                    "\" не задан правильный ответ.");
+//            }
+//        }
     }
 
     /**
@@ -101,5 +101,10 @@ public class TestingTheTest
     public void setTestName(String testName)
     {
         this.testName = testName;
+    }
+
+    public TestingQuestionServiceInterface getQuestionService()
+    {
+        return questionService;
     }
 }
