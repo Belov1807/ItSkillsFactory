@@ -33,6 +33,12 @@ public class TestingQuestion
      */
     private String author = new String();
 
+    /**
+     * Конструктор.
+     * @param questionText - текст вопроса.
+     * @param complexity - сложность вопроса.
+     * @param author - автор вопроса.
+     */
     TestingQuestion(String questionText,
                     TestingComplexityOfTheQuestion complexity,
                     String author)

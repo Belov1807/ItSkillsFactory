@@ -102,6 +102,7 @@ public class TestingUserService implements TestingUserServiceInterface
     @Override
     public void logout()
     {
+        System.exit(0);
     }
 
     /**

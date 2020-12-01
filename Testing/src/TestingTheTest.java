@@ -41,6 +41,10 @@ public class TestingTheTest
         this.testName = testName;
     }
 
+    /**
+     * Возвращает максимальное количество баллов за весь тест.
+     * @return максимальное количество баллов за весь тест.
+     */
     public TestingQuestionServiceInterface getQuestionService()
     {
         return questionService;

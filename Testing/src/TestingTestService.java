@@ -5,7 +5,11 @@ import java.util.ArrayList;
  */
 public class TestingTestService implements TestingTestServiceInterface
 {
+    /**
+     * Сервис по работе с вопросами.
+     */
     TestingQuestionServiceInterface question;
+
     /**
      * Список тестов.
      */
@@ -93,18 +97,30 @@ public class TestingTestService implements TestingTestServiceInterface
         }
     }
 
+    /**
+     * Возвращает сервис по работе с вопросами.
+     * @param index индекс теста.
+     * @return сервис по работе с вопросами.
+     */
     @Override
     public TestingQuestionServiceInterface getQuestionServiceTestAt(int index)
     {
         return testsList.get(index).getQuestionService();
     }
 
+    /**
+     * Возвращает максимальное количество баллов за весь тест.
+     * @return максимальное количество баллов за весь тест.
+     */
     @Override
     public int getAllScores()
-    {int scores = 0;
+    {
+        int scores = 0;
+        System.out.println("question.getQuestionsCount() = " + question.getQuestionsCount());
         for (int i = 0; i < question.getQuestionsCount(); i ++)
         {
             scores += question.getScoreQuestionAt(i);
+            System.out.println("scores = " + scores);
         }
 
         return scores;

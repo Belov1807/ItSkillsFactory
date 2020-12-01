@@ -8,7 +8,7 @@ public interface TestingTestServiceInterface
      * @param testName - имя теста.
      * @throws Exception - выбрасываемое исключение.
      */
-    public void addTest(String testName) throws Exception;
+    void addTest(String testName) throws Exception;
 
     /**
      * Изменяет название у теста по индексу.
@@ -36,7 +36,16 @@ public interface TestingTestServiceInterface
      */
     void removeTestAt(int index);
 
+    /**
+     * Возвращает сервис по работе с вопросами.
+     * @param index индекс теста.
+     * @return сервис по работе с вопросами.
+     */
     TestingQuestionServiceInterface getQuestionServiceTestAt(int index);
 
+    /**
+     * Возвращает максимальное количество баллов за весь тест.
+     * @return максимальное количество баллов за весь тест.
+     */
     int getAllScores();
 }

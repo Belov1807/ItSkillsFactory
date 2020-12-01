@@ -39,5 +39,6 @@ public class TestingConst
     // Целочисленные переменные.
     public static final int ZERO_NUMBER_IN_CHAR = 48;
 
+    // Разделитель.
     public static final String SEPARATOR = "------------------------------- ";
 }

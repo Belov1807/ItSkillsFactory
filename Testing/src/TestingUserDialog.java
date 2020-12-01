@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Планируется разделить этот огромный диалог на несколько классов диалога.
 /**
  * Диалог с пользователем.
  */
 public class TestingUserDialog
 {
-    TestingTakingTheTest takingTest = new TestingTakingTheTest();
+    TestingTakingTheTest takingTest;/* = new TestingTakingTheTest();*/
     /**
      * Интерфейс сервиса взаимодействия с пользователем.
      */
@@ -45,6 +46,7 @@ public class TestingUserDialog
     {
         user = new TestingUserService();
         test = new TestingTestService();
+        takingTest = new TestingTakingTheTest();
         dialog();
     }
 
@@ -58,7 +60,6 @@ public class TestingUserDialog
 
     /**
      * Выводит сообщение.
-     *
      * @param textMessage - текст сообщения.
      */
     private void print(String textMessage)
@@ -68,7 +69,6 @@ public class TestingUserDialog
 
     /**
      * Выводит сообщение об ошибке.
-     *
      * @param textMessage - текст сообщения.
      */
     private void printErr(String textMessage)
@@ -76,6 +76,7 @@ public class TestingUserDialog
         System.err.println(textMessage);
     }
 
+    // В дальнейшем планируется проверка числа на валидность во всех 3х методах
     /**
      * Ввод строки.
      */
@@ -85,7 +86,6 @@ public class TestingUserDialog
         scanner = new Scanner(System.in);
         inputedString = scanner.nextLine();
     }
-
     /**
      * Ввод символа.
      */
@@ -94,7 +94,7 @@ public class TestingUserDialog
         inputString();
         inputedSymbol = inputedString.charAt(0);
     }
-
+    // В дальнейшем целочисленная переменная будет браться из распарсенной строки.
     /**
      * Ввод целого числа.
      */
@@ -105,6 +105,7 @@ public class TestingUserDialog
         inputedNumber = scanner.nextInt() - 1;
     }
 
+    // В дальнейшем разделители будут раставлены по всему диалогу.
     /**
      * Добавляет разделитель.
      */
@@ -133,6 +134,7 @@ public class TestingUserDialog
         {
             print("\nЕсли Вы хотите войти в систему введите \"1\"");
             print("Если Вы хотите зарегистрироваться в системе введите \"2\"");
+            print("Если Вы хотите выйти из приложения введите \"0\"");
 
             inputSymbol();
 
@@ -142,6 +144,11 @@ public class TestingUserDialog
             } else if (inputedSymbol == TestingConst.TWO)
             {
                 registerDialog();
+            }
+            else if (inputedSymbol == TestingConst.ZERO)
+            {
+                print("Осуществляется выход из приложения");
+                user.logout();
             }
         } catch (Exception exception)
         {
@@ -167,7 +174,6 @@ public class TestingUserDialog
 
     /**
      * Диалог входа в систему.
-     *
      * @throws Exception - выбрасывыемое исключение.
      */
     private void loginDialog() throws Exception
@@ -196,12 +202,12 @@ public class TestingUserDialog
 
         user.register();
 
+        print("Регистрация завершена");
         selectActionInSystemSelectionDialog();
     }
 
     /**
      * Диалог выбора после входа пользователя в систему.
-     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void actionsAfterLoginSelectionDialog() throws Exception
@@ -221,7 +227,6 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора теста.
-     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void selectTestDialog() throws Exception
@@ -234,7 +239,6 @@ public class TestingUserDialog
 
     /**
      * Диалог добавление теста.
-     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void addTestDialog() throws Exception
@@ -250,7 +254,6 @@ public class TestingUserDialog
 
     /**
      * Выводит список тестов.
-     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void showTestsList() throws Exception
@@ -268,7 +271,6 @@ public class TestingUserDialog
 
     /**
      * Возможные действия с тестом.
-     *
      * @throws Exception - выбрасываемое исключение.
      */
     private void actionsTestSelectionDialog() throws Exception
@@ -279,10 +281,7 @@ public class TestingUserDialog
         {
             print("2 Добавить тест в список");
         }
-        if (test.getTestsCount() != 0)
-        {
 
-        }
         print("\n0 Назад");
 
         inputSymbol();
@@ -305,7 +304,6 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора выбранного теста.
-     *
      * @param indexTest - индекс выбранного теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -358,7 +356,6 @@ public class TestingUserDialog
 
     /**
      * Диалог прохождения теста
-     *
      * @param indexTest - индекс теста.
      */
     private void takingTestDialog(int indexTest) throws Exception
@@ -394,11 +391,12 @@ public class TestingUserDialog
                 }
             } else
             {
+                inputString();
                 takingTest.addUserAnswers(inputedString);
+                takingTest.checkRightAnswer(i);
             }
 
-            takingTest.checkRightAnswer(i);
-
+            // В данный момент не работает проверка на правильный вариант ответа.
             if (takingTest.isRightAnswerOption() == true)
             {
                 print("Ответ верный");
@@ -408,15 +406,15 @@ public class TestingUserDialog
             }
         }
         print("Тест завершен!");
+
+        // Некорректно работает метод возврата общего количества баллов, из-за этого на этом месте летит программа.
         print("У Вас " + (100 * takingTest.getUserScores() / test.getAllScores()) + "% правильных ответов.");
 
         actionsAfterLoginSelectionDialog();
     }
 
-
     /**
      * Проверка валидности введенного вариата ответа.
-     *
      * @param indexQuestion
      * @return
      */
@@ -470,7 +468,6 @@ public class TestingUserDialog
 
     /**
      * Диалог переименования теста.
-     *
      * @param indexTest - индекс теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -489,7 +486,6 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора удаления теста.
-     *
      * @param indexTest индекс теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -514,7 +510,6 @@ public class TestingUserDialog
 
             selectedTestSelectionDialog(indexTest);
         }
-
     }
 
     /**
@@ -585,6 +580,7 @@ public class TestingUserDialog
         }
     }
 
+    // Метод добавления вопроса нуждается в доработке.
     /**
      * Диалог добавления вопроса.
      */
@@ -608,6 +604,9 @@ public class TestingUserDialog
         TestingQuestion question = new TestingQuestion(questionText, complexity, user.getLogin());
     }
 
+    /**
+     * Показывает информацию о вопросе.
+     */
     private void showQuestion()
     {
         print("Введите номер вопроса");
@@ -653,12 +652,10 @@ public class TestingUserDialog
         if (inputedSymbol == TestingConst.ZERO)
         {
         }
-
     }
 
     /**
      * Удалить вопрос.
-     *
      * @param indexQuestion
      */
     private void removeQuestion(int indexQuestion)
@@ -680,7 +677,6 @@ public class TestingUserDialog
 
     /**
      * Диалог выбора редактировния вопроса.
-     *
      * @param indexQuestion - индекс вопроса.
      */
     private void editQuestionSelectionDialog(int indexQuestion)
@@ -698,7 +694,6 @@ public class TestingUserDialog
 
     /**
      * Диалог изменения текста вопроса.
-     *
      * @param indexQuestion - индекс вопроса.
      */
     private void renameQueustionTextDialog(int indexQuestion)

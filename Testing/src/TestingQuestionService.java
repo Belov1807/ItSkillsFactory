@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Сервис по работе с вопросами.
@@ -11,8 +10,10 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
      */
     private ArrayList<TestingQuestion> questionsList = new ArrayList<TestingQuestion>();
 
+    /**
+     * Список загруженных из файла вопросов.
+     */
     private ArrayList<TestingQuestion> questionsListFromXml = new ArrayList<TestingQuestion>();
-
 
     /**
      * Добавить вопрос.
@@ -20,6 +21,7 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
     @Override
     public void addQuestion(TestingQuestion question)
     {
+        //Пока нет реализации.
     }
 
     /**
@@ -139,12 +141,22 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
         return getQuestionAt(index).getType().getUserInfo();
     }
 
+    /**
+     * Возвращает максимальное количество вариантов ответа у выбранного вопроса.
+     * @param index - индекс вопроса.
+     * @return максимальное количество вариантов ответа.
+     */
     @Override
     public int getMaxRightAnswerOptionsCountAt(int index)
     {
         return getQuestionAt(index).getType().getMaxRightAnswerOptionsCount();
     }
 
+    /**
+     * Возвращает минимальное количество вариантов ответа у выбранного вопроса.
+     * @param index - индекс вопроса.
+     * @return минимальное количество вариантов ответа.
+     */
     @Override
     public int getMinRightAnswerOptionsCountAt(int index)
     {
@@ -175,8 +187,8 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
 
     /**
      * Устанавливает текст вопрос
-     * @param index
-     * @param textQuestion
+     * @param index - индекс вопроса.
+     * @param textQuestion - текст вопроса
      */
     @Override
     public void renameQuestionTextAt(int index, String textQuestion)
@@ -184,6 +196,11 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
         getQuestionAt(index).setQuestionText(textQuestion);
     }
 
+    /**
+     * Возвращает балл на который оценивается выбранный вопрос.
+     * @param index - индекс вопроса.
+     * @return балл на который оценивается выбранный вопрос.
+     */
     @Override
     public int getScoreQuestionAt(int index)
     {
