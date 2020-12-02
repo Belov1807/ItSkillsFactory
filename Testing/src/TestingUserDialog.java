@@ -25,11 +25,6 @@ public class TestingUserDialog
     private TestingQuestionServiceInterface questionService = null;
 
     /**
-     * Сканнер.
-     */
-    private Scanner scanner = null;
-
-    /**
      * Введенное значение.
      */
     private String inputedString = new String();
@@ -79,33 +74,80 @@ public class TestingUserDialog
         System.err.println(textMessage);
     }
 
-    // В дальнейшем планируется проверка числа на валидность во всех 3х методах
     /**
      * Ввод строки.
      */
     private void inputString()
     {
         inputedString = new String();
-        scanner = new Scanner(System.in);
-        inputedString = scanner.nextLine();
+        boolean validValue = false;
+
+        while (validValue == false)
+        {
+            Scanner scanner = new Scanner(System.in);
+            inputedString = scanner.nextLine();
+
+            if (inputedString.isEmpty() == false)
+            {
+                validValue = true;
+            }
+            else
+            {
+                printErr("Некорректный ввод! Вы ввели пустое значение");
+            }
+        }
     }
     /**
      * Ввод символа.
      */
-    private void inputSymbol()
+    private void inputSymbol(char symbolMaxValue)
     {
-        inputString();
-        inputedSymbol = inputedString.charAt(0);
+        boolean validValue = false;
+
+        while (validValue == false)
+        {
+            inputString();
+
+            inputedSymbol = inputedString.charAt(0);
+
+            if (inputedSymbol >= TestingConst.ZERO && inputedSymbol <= symbolMaxValue)
+            {
+                validValue = true;
+            }
+            else
+            {
+                printErr("Некорректный ввод! Введите число от " + TestingConst.ZERO + " до " + symbolMaxValue);
+            }
+        }
     }
-    // В дальнейшем целочисленная переменная будет браться из распарсенной строки.
     /**
      * Ввод целого числа.
      */
-    private void inputNumber()
+    private void inputNumber(int numberMaxValue)
     {
         inputedNumber = 0;
-        scanner = new Scanner(System.in);
-        inputedNumber = scanner.nextInt() - 1;
+        boolean validValue = false;
+
+        while (validValue == false)
+        {
+            inputString();
+            try
+            {
+                inputedNumber = Integer.parseInt(inputedString) - 1;
+            } catch (Exception exception)
+            {
+                printErr("Некорректный ввод! Введенное значение не является числом");
+                inputNumber(numberMaxValue);
+            }
+            if (inputedNumber >= 0 &&  inputedNumber <= numberMaxValue)
+            {
+                validValue = true;
+            }
+            else
+            {
+                printErr("Некорректный ввод! Введите число от 1 до " + (numberMaxValue + 1));
+            }
+        }
     }
 
     // В дальнейшем разделители будут раставлены по всему диалогу.
@@ -139,7 +181,7 @@ public class TestingUserDialog
             print("Если Вы хотите зарегистрироваться в системе введите \"2\"");
             print("Если Вы хотите выйти из приложения введите \"0\"");
 
-            inputSymbol();
+            inputSymbol(TestingConst.TWO);
 
             if (inputedSymbol == TestingConst.ONE)
             {
@@ -217,7 +259,7 @@ public class TestingUserDialog
     {
         print("1 Показать список доступных тестов");
         print("\n0 Выйти из системы");
-        inputSymbol();
+        inputSymbol(TestingConst.ONE);
 
         if (inputedSymbol == TestingConst.ONE)
         {
@@ -235,7 +277,7 @@ public class TestingUserDialog
     private void selectTestDialog() throws Exception
     {
         print("Введите номер теста");
-        inputNumber();
+        inputNumber(test.getTestsCount());
         print("Вы выбрали тест \"" + test.getTestNameAt(inputedNumber) + "\"");
         selectedTestSelectionDialog(inputedNumber);
     }
@@ -279,14 +321,16 @@ public class TestingUserDialog
     {
         print("1 Выбрать тест из списка");
 
+        char symbolMaxValue = TestingConst.ONE;
+
         if (user.isUserIsAdmin() == true)
         {
             print("2 Добавить тест в список");
+            symbolMaxValue = TestingConst.TWO;
         }
 
         print("\n0 Назад");
-
-        inputSymbol();
+        inputSymbol(symbolMaxValue);
 
         if (test.getTestsCount() != 0 && inputedSymbol == TestingConst.ONE)
         {
@@ -319,7 +363,7 @@ public class TestingUserDialog
             print("4 Удалить тест");
             print("\n0 Назад к списку тестов");
 
-            inputSymbol();
+            inputSymbol(TestingConst.FOR);
 
             if (inputedSymbol == TestingConst.ONE)
             {
@@ -343,7 +387,7 @@ public class TestingUserDialog
             print("1 Пройти тест");
             print("\n0 Назад ");
 
-            inputSymbol();
+            inputSymbol(TestingConst.ONE);
 
             if (inputedSymbol == TestingConst.ONE)
             {
@@ -497,7 +541,7 @@ public class TestingUserDialog
         print("Вы действительно хотите удалить тест \"" + testName + "\" ?");
         print("1 Да");
         print("2 Нет");
-        inputSymbol();
+        inputSymbol(TestingConst.TWO); // Необходимо добавить проверку на 0.
 
         if (inputedSymbol == TestingConst.ONE)
         {
@@ -559,15 +603,18 @@ public class TestingUserDialog
 
     private void questionsListSelectionDialog()
     {
+        char symbolMaxValue = TestingConst.ONE;
+
         print("1 Добавить вопрос");
 
         if (questionService.getQuestionsCount() != 0)
         {
             print("2 Выбрать вопрос");
+            symbolMaxValue = TestingConst.TWO;
         }
         print("\n0 Назад к тесту");
 
-        inputSymbol();
+        inputSymbol(symbolMaxValue);
 
         if (inputedSymbol == TestingConst.ONE)
         {
@@ -598,7 +645,7 @@ public class TestingUserDialog
         }
 
         print("Введите номер сложности вопроса");
-        inputNumber();
+        inputNumber(TestingComplexityOfTheQuestion.complexitysCount());
 
         TestingComplexityOfTheQuestion complexity = TestingComplexityOfTheQuestion.getComplexityOfTheQuestionAt(inputedNumber);
         TestingQuestion question = new TestingQuestion(questionText, complexity, user.getLogin());
@@ -610,7 +657,7 @@ public class TestingUserDialog
     private void showQuestion()
     {
         print("Введите номер вопроса");
-        inputNumber();
+        inputNumber(questionService.getQuestionsCount());
 
         print("Текст вопроса: " + questionService.getQuestionTextAt(inputedNumber));
         print("Сложность вопроса: " + questionService.getComplexityAt(inputedNumber));
@@ -663,7 +710,7 @@ public class TestingUserDialog
         print("Вы действительно хотите удалить вопрос ?");
         print("1 Да");
         print("2 Нет");
-        inputSymbol();
+        inputSymbol(TestingConst.TWO); // Необходимо реализовать проверку на 0.
 
         if (inputedSymbol == TestingConst.ONE)
         {
