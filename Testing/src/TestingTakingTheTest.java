@@ -30,12 +30,10 @@ public class TestingTakingTheTest
      */
     public TestingTakingTheTest()
     {
-        System.out.println("public TestingTakingTheTest()");
     }
 
     /**
-     * Добавляет пользовательскийвариант ответа в список.
-     *
+     * Добавляет пользовательский вариант ответа в список.
      * @param answer - вариант ответ.
      */
     public void addUserAnswers(String answer)
@@ -45,20 +43,16 @@ public class TestingTakingTheTest
 
     /**
      * Проверяет правильность ответов пользователя.
-     *
      * @param indexQuestion - индекс вопроса.
      */
     public void checkRightAnswer(int indexQuestion)
     {
         rightAnswerOption = false;
 
-        System.out.println("checkRightAnswer(int indexQuestion)");
         ArrayList<String> rightAnswers = question.getRightAnswerOptionsAt(indexQuestion);
         for (int i = 0; i < rightAnswers.size(); i++)
         {
-            System.out.println("userAnswers = " + userAnswers.get(i));
-            System.out.println("rightAnswers = " + rightAnswers.get(i));
-            if (userAnswers.equals(rightAnswers.get(i)))
+            if (userAnswers.contains(rightAnswers.get(i)))
             {
                 rightAnswerOption = true;
             } else
@@ -68,15 +62,15 @@ public class TestingTakingTheTest
             }
         }
 
-        if (rightAnswerOption = true)
+        if (rightAnswerOption == true)
         {
             userScores += question.getScoreQuestionAt(indexQuestion);
         }
+        userAnswers.clear();
     }
 
     /**
-     * возвращает количество баллов набранных пользователем при прохождении теста.
-     *
+     * Возвращает количество баллов набранных пользователем при прохождении теста.
      * @return количество баллов набранных пользователем.
      */
     public int getUserScores()
@@ -86,7 +80,6 @@ public class TestingTakingTheTest
 
     /**
      * Возвращает состояние правильности ответа пользователя.
-     *
      * @return true - пользователь ответил верно.
      */
     public boolean isRightAnswerOption()
@@ -96,7 +89,6 @@ public class TestingTakingTheTest
 
     /**
      * Устанавливает сервис по работе с вопросами.
-     *
      * @param question - сервис по работе с вопросами.
      */
     public void setQuestion(TestingQuestionServiceInterface question)

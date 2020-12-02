@@ -7,7 +7,10 @@ import java.util.Scanner;
  */
 public class TestingUserDialog
 {
-    TestingTakingTheTest takingTest;/* = new TestingTakingTheTest();*/
+    /**
+     * Класс прохождения теста.
+     */
+    TestingTakingTheTest takingTest;
     /**
      * Интерфейс сервиса взаимодействия с пользователем.
      */
@@ -249,7 +252,6 @@ public class TestingUserDialog
         print("Тест под названием \"" + inputedString + "\" успешно добавлен");
 
         actionsAfterLoginSelectionDialog();
-
     }
 
     /**
@@ -378,6 +380,7 @@ public class TestingUserDialog
                     print("\nВариант № " + (j + 1) + " " + questionService.getAnswerOptionsAt(i).get(j));
                 }
             }
+
             print(questionService.getTypeUserInfoAt(i));
             inputString();
 
@@ -391,12 +394,10 @@ public class TestingUserDialog
                 }
             } else
             {
-                inputString();
                 takingTest.addUserAnswers(inputedString);
-                takingTest.checkRightAnswer(i);
             }
+            takingTest.checkRightAnswer(i);
 
-            // В данный момент не работает проверка на правильный вариант ответа.
             if (takingTest.isRightAnswerOption() == true)
             {
                 print("Ответ верный");
@@ -576,7 +577,6 @@ public class TestingUserDialog
             showQuestion();
         } else if (inputedSymbol == TestingConst.ZERO)
         {
-            System.out.println("Назад к тесту ");
         }
     }
 
