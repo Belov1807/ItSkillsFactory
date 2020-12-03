@@ -24,7 +24,7 @@ public class TestingUser
     /**
      * Конструктор.
      * @param userIsAdmin - является ли пользователь администратором.
-     * @param login - логин пользователя.
+     * @param login       - логин пользователя.
      */
     public TestingUser(boolean userIsAdmin, String login)
     {

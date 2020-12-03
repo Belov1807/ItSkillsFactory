@@ -67,8 +67,7 @@ public class TestingUserService implements TestingUserServiceInterface
         if (userFound == false)
         {
             throw new Exception("Пользователь не найден");
-        }
-        else if (passwordIscCorrect == false)
+        } else if (passwordIscCorrect == false)
         {
             throw new Exception("Вы ввели неверный пароль");
         }

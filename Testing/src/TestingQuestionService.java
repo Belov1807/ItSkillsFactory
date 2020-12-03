@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 
 /**
@@ -16,12 +18,25 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
     private ArrayList<TestingQuestion> questionsListFromXml = new ArrayList<TestingQuestion>();
 
     /**
-     * Добавить вопрос.
+     * Добавляет вопрос.
+     * @param questionText       - текст вопроса.
+     * @param complexityNumber   - номер сложности вопроса.
+     * @param author             - автор вопроса.
+     * @param answersOptionsList - список пар верный ответ - вариант ответа.
      */
     @Override
-    public void addQuestion(TestingQuestion question)
+    public void addQuestion(String questionText, int complexityNumber, String author,
+                            ArrayList<Pair<Boolean, String>> answersOptionsList)
     {
-        //Пока нет реализации.
+        TestingComplexityOfTheQuestion complexity =
+                TestingComplexityOfTheQuestion.getComplexityOfTheQuestionAt(complexityNumber);
+
+        TestingQuestion question = new TestingQuestion(questionText, complexity, author);
+        for (int i = 0; i < answersOptionsList.size(); i++)
+        {
+            question.addAnswerOption(answersOptionsList.get(i).getKey(), answersOptionsList.get(i).getValue());
+        }
+        questionsList.add(question);
     }
 
     /**
@@ -62,7 +77,7 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
     @Override
     public int getQuestionsXmlCount()
     {
-       return questionsListFromXml.size();
+        return questionsListFromXml.size();
     }
 
     /**
@@ -187,7 +202,7 @@ public class TestingQuestionService implements TestingQuestionServiceInterface
 
     /**
      * Устанавливает текст вопрос
-     * @param index - индекс вопроса.
+     * @param index        - индекс вопроса.
      * @param textQuestion - текст вопроса
      */
     @Override

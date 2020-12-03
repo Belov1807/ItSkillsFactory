@@ -1,3 +1,5 @@
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 
 /**
@@ -6,9 +8,14 @@ import java.util.ArrayList;
 public interface TestingQuestionServiceInterface
 {
     /**
-     * Добавить вопрос.
+     * Добавляет вопрос.
+     * @param questionText       - текст вопроса.
+     * @param complexityNumber   - номер сложности вопроса.
+     * @param author             - автор вопроса.
+     * @param answersOptionsList - список пар верный ответ - вариант ответа.
      */
-    void addQuestion(TestingQuestion question);
+    void addQuestion(String questionText, int complexityNumber, String author,
+                     ArrayList<Pair<Boolean, String>> answersOptionsList);
 
     /**
      * Удалить вопрос.
@@ -43,7 +50,7 @@ public interface TestingQuestionServiceInterface
 
     /**
      * Добавляет список вопросов из xml-файла.
-     * @param xmlFilePath
+     * @param xmlFilePath - путь к xml-файлу.
      * @throws Exception
      */
     void addQuestionsListFromXml(String xmlFilePath) throws Exception;
@@ -106,7 +113,7 @@ public interface TestingQuestionServiceInterface
 
     /**
      * Устанавливает текст вопрос
-     * @param index - индекс вопроса.
+     * @param index        - индекс вопроса.
      * @param textQuestion - текст вопроса
      */
     void renameQuestionTextAt(int index, String textQuestion);

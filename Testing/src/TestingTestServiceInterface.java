@@ -12,7 +12,7 @@ public interface TestingTestServiceInterface
 
     /**
      * Изменяет название у теста по индексу.
-     * @param index - индекс.
+     * @param index       - индекс.
      * @param newTestName - новое название теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -26,7 +26,7 @@ public interface TestingTestServiceInterface
 
     /**
      * Возвращает имя теста по индексу.
-     * @param  - индекс.
+     * @param - индекс.
      * @return имя теста.
      */
     String getTestNameAt(int index);
@@ -44,8 +44,15 @@ public interface TestingTestServiceInterface
     TestingQuestionServiceInterface getQuestionServiceTestAt(int index);
 
     /**
+     * Возвращает индекс теста по сервису по работе с вопросами.
+     * @param question сервису по работе с вопросами.
+     * @return индекс теста.
+     */
+    int getIndexTextFromQuestion(TestingQuestionServiceInterface question);
+
+    /**
      * Возвращает максимальное количество баллов за весь тест.
      * @return максимальное количество баллов за весь тест.
      */
-    int getAllScores();
+    int getAllScoresAt(int index);
 }

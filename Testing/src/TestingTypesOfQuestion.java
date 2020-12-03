@@ -6,18 +6,18 @@ public enum TestingTypesOfQuestion
     /**
      * Вопрос с единственным правильным ответом.
      */
-    SINGLE_RIGHT_OPTION(1,1,"Вопрос с единственным правильным ответом",
+    SINGLE_RIGHT_OPTION(1, 1, "Вопрос с единственным правильным ответом",
             "\nВведите номер правильного варианта ответа"),
     /**
      * Вопрос с множественными правильными ответами.
      */
-    MULTIPLE_RIGHT_OPTIONS(2,9,"Вопрос с множественными правильными ответами",
+    MULTIPLE_RIGHT_OPTIONS(2, 9, "Вопрос с множественными правильными ответами",
             "\nВведите номера всех правильных вариантов ответа через запятую"),
     /** Вопрос с множественными правильными ответами */
     /**
      * Открытый вопрос.
      */
-    OPENING_QUESTION(1,1,"Открытый вопрос", "\nВведите ответ на вопрос");
+    OPENING_QUESTION(1, 1, "Открытый вопрос", "\nВведите ответ на вопрос");
 
     /**
      * Минимальное количество правильных вариантов ответа.
@@ -40,13 +40,13 @@ public enum TestingTypesOfQuestion
      * Конструктор.
      * @param minRightAnswerOptionsCount - Минимальное количество правильных вариантов ответа.
      * @param maxRightAnswerOptionsCount - Максимальное количество правильных вариантов ответа.
-     * @param type - вид вопроса.
-     * @param userInfo - информация для пользователя.
+     * @param type                       - вид вопроса.
+     * @param userInfo                   - информация для пользователя.
      */
     private TestingTypesOfQuestion(int minRightAnswerOptionsCount,
                                    int maxRightAnswerOptionsCount,
-                                                      String type,
-                                                  String userInfo)
+                                   String type,
+                                   String userInfo)
     {
         this.minRightAnswerOptionsCount = minRightAnswerOptionsCount;
         this.maxRightAnswerOptionsCount = maxRightAnswerOptionsCount;
@@ -62,6 +62,7 @@ public enum TestingTypesOfQuestion
     {
         return type;
     }
+
     /**
      * Возвращает информацию для пользователя.
      * @return информация для пользователя

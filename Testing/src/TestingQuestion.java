@@ -21,7 +21,7 @@ public class TestingQuestion
     private ArrayList<String> rightAnswerOptionsList = new ArrayList<String>();
 
     /**
-     * Тип вопроса.                                                                                                                                                                                                                                             
+     * Тип вопроса.
      */
     private TestingTypesOfQuestion type = null;
     /**
@@ -36,8 +36,8 @@ public class TestingQuestion
     /**
      * Конструктор.
      * @param questionText - текст вопроса.
-     * @param complexity - сложность вопроса.
-     * @param author - автор вопроса.
+     * @param complexity   - сложность вопроса.
+     * @param author       - автор вопроса.
      */
     TestingQuestion(String questionText,
                     TestingComplexityOfTheQuestion complexity,
@@ -84,12 +84,10 @@ public class TestingQuestion
         if (rightAnswerOptionsList.size() > 1)
         {
             type = TestingTypesOfQuestion.MULTIPLE_RIGHT_OPTIONS;
-        }
-        else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() != 1)
+        } else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() != 1)
         {
             type = TestingTypesOfQuestion.SINGLE_RIGHT_OPTION;
-        }
-        else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() == 1)
+        } else if (rightAnswerOptionsList.size() == 1 && answerOptionsList.size() == 1)
         {
             type = TestingTypesOfQuestion.OPENING_QUESTION;
         }

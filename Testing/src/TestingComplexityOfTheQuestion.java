@@ -9,15 +9,15 @@ public enum TestingComplexityOfTheQuestion
     /**
      * Легкий вопрос.
      */
-    LOW(1,"Легкий вопрос"),
+    LOW(1, "Легкий вопрос"),
     /**
      * Вопрос средней сложности.
      */
-    MEDIUM(2,"Вопрос средней сложности"),
+    MEDIUM(2, "Вопрос средней сложности"),
     /**
      * Сложный вопрос.
      */
-    HARD(3,"Сложный вопрос");
+    HARD(3, "Сложный вопрос");
 
     /**
      * Описание сложности вопроса.
@@ -31,7 +31,7 @@ public enum TestingComplexityOfTheQuestion
     /**
      * Конструктор.
      * @param complexityOfTheQuestion - описание сложности вопроса.
-     * @param score - количество баллов.
+     * @param score                   - количество баллов.
      */
     private TestingComplexityOfTheQuestion(int score, String complexityOfTheQuestion)
     {
@@ -67,6 +67,7 @@ public enum TestingComplexityOfTheQuestion
     {
         return Arrays.asList(values()).get(index);
     }
+
     /**
      * Возвращает количество баллов.
      * @return количество баллов.

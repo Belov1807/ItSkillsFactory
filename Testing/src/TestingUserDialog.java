@@ -1,7 +1,10 @@
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // Планируется разделить этот огромный диалог на несколько классов диалога.
+
 /**
  * Диалог с пользователем.
  */
@@ -37,6 +40,8 @@ public class TestingUserDialog
      */
     private char inputedSymbol = 0;
 
+    private String textMessage;
+
     /**
      * Конструктор.
      */
@@ -62,6 +67,7 @@ public class TestingUserDialog
      */
     private void print(String textMessage)
     {
+        this.textMessage = textMessage;
         System.out.println(textMessage);
     }
 
@@ -90,13 +96,14 @@ public class TestingUserDialog
             if (inputedString.isEmpty() == false)
             {
                 validValue = true;
-            }
-            else
+            } else
             {
                 printErr("Некорректный ввод! Вы ввели пустое значение");
+                printErr(textMessage);
             }
         }
     }
+
     /**
      * Ввод символа.
      */
@@ -113,13 +120,13 @@ public class TestingUserDialog
             if (inputedSymbol >= TestingConst.ZERO && inputedSymbol <= symbolMaxValue)
             {
                 validValue = true;
-            }
-            else
+            } else
             {
                 printErr("Некорректный ввод! Введите число от " + TestingConst.ZERO + " до " + symbolMaxValue);
             }
         }
     }
+
     /**
      * Ввод целого числа.
      */
@@ -139,11 +146,10 @@ public class TestingUserDialog
                 printErr("Некорректный ввод! Введенное значение не является числом");
                 inputNumber(numberMaxValue);
             }
-            if (inputedNumber >= 0 &&  inputedNumber <= numberMaxValue)
+            if (inputedNumber >= 0 && inputedNumber <= numberMaxValue)
             {
                 validValue = true;
-            }
-            else
+            } else
             {
                 printErr("Некорректный ввод! Введите число от 1 до " + (numberMaxValue + 1));
             }
@@ -151,6 +157,7 @@ public class TestingUserDialog
     }
 
     // В дальнейшем разделители будут раставлены по всему диалогу.
+
     /**
      * Добавляет разделитель.
      */
@@ -189,8 +196,7 @@ public class TestingUserDialog
             } else if (inputedSymbol == TestingConst.TWO)
             {
                 registerDialog();
-            }
-            else if (inputedSymbol == TestingConst.ZERO)
+            } else if (inputedSymbol == TestingConst.ZERO)
             {
                 print("Осуществляется выход из приложения");
                 user.logout();
@@ -451,9 +457,7 @@ public class TestingUserDialog
             }
         }
         print("Тест завершен!");
-
-        // Некорректно работает метод возврата общего количества баллов, из-за этого на этом месте летит программа.
-        print("У Вас " + (100 * takingTest.getUserScores() / test.getAllScores()) + "% правильных ответов.");
+        print("У Вас " + (100 * takingTest.getUserScores() / test.getAllScoresAt(indexTest)) + "% правильных ответов.");
 
         actionsAfterLoginSelectionDialog();
     }
@@ -584,7 +588,7 @@ public class TestingUserDialog
     /**
      * Выводит список вопросов.
      */
-    private void showQuestionsList(int indexTest)
+    private void showQuestionsList(int indexTest) throws Exception
     {
         questionService = test.getQuestionServiceTestAt(indexTest);
         int questionsCount = questionService.getQuestionsCount();
@@ -597,11 +601,15 @@ public class TestingUserDialog
         {
             print((i + 1) + " " + questionService.getQuestionTextAt(i));
         }
-
-        questionsListSelectionDialog();
+        questionsListSelectionDialog(indexTest);
     }
 
-    private void questionsListSelectionDialog()
+    /**
+     * Диалог при работе со списком вопросов.
+     * @param indexTest - индекс теста.
+     * @throws Exception - выбрасываемое исключение.
+     */
+    private void questionsListSelectionDialog(int indexTest) throws Exception
     {
         char symbolMaxValue = TestingConst.ONE;
 
@@ -618,20 +626,20 @@ public class TestingUserDialog
 
         if (inputedSymbol == TestingConst.ONE)
         {
-            addQuestionDialog();
+            addQuestionDialog(indexTest);
         } else if (questionService.getQuestionsCount() != 0 && inputedSymbol == TestingConst.TWO)
         {
             showQuestion();
         } else if (inputedSymbol == TestingConst.ZERO)
         {
+            showQuestionsList(test.getIndexTextFromQuestion(questionService));
         }
     }
 
-    // Метод добавления вопроса нуждается в доработке.
     /**
      * Диалог добавления вопроса.
      */
-    private void addQuestionDialog()
+    private void addQuestionDialog(int indexTest) throws Exception
     {
         print("Введите текст вопроса");
         inputString();
@@ -647,14 +655,58 @@ public class TestingUserDialog
         print("Введите номер сложности вопроса");
         inputNumber(TestingComplexityOfTheQuestion.complexitysCount());
 
-        TestingComplexityOfTheQuestion complexity = TestingComplexityOfTheQuestion.getComplexityOfTheQuestionAt(inputedNumber);
-        TestingQuestion question = new TestingQuestion(questionText, complexity, user.getLogin());
+        ArrayList<Pair<Boolean, String>> answersOptionsList = new ArrayList<>();
+        boolean addAnswerOption = false;
+
+        while (addAnswerOption == false)
+        {
+            print("Введите вариант ответа");
+            inputString();
+            String answerOption = inputedString;
+
+            print("Этот вариант ответа является верным ?");
+            print("1 Да");
+            print("2 Нет");
+
+            Boolean isRightAnswerOptionThis = false;
+
+            inputSymbol(TestingConst.TWO);
+
+            if (inputedSymbol == TestingConst.ONE)
+            {
+                isRightAnswerOptionThis = true;
+            } else if (inputedSymbol == TestingConst.TWO)
+            {
+                isRightAnswerOptionThis = false;
+            }
+
+            Pair<Boolean, String> answerOptionPair = new Pair<>(isRightAnswerOptionThis, answerOption);
+            answersOptionsList.add(answerOptionPair);
+
+            print("Вариант ответа добавлен");
+            print("Хотите добавить еще вариант ответа ?");
+            print("1 Да");
+            print("2 Нет");
+            inputSymbol(TestingConst.TWO);
+
+            if (inputedSymbol == TestingConst.ONE)
+            {
+                addAnswerOption = false;
+            } else if (inputedSymbol == TestingConst.TWO)
+            {
+                addAnswerOption = true;
+            }
+        }
+
+        questionService.addQuestion(questionText, inputedNumber, user.getLogin(), answersOptionsList);
+        print("Вопрос добавлен");
+        selectedTestSelectionDialog(indexTest);
     }
 
     /**
      * Показывает информацию о вопросе.
      */
-    private void showQuestion()
+    private void showQuestion() throws Exception
     {
         print("Введите номер вопроса");
         inputNumber(questionService.getQuestionsCount());
@@ -676,16 +728,19 @@ public class TestingUserDialog
         {
             print(questionService.getRightAnswerOptionsAt(inputedNumber).get(i));
         }
+        selectiedQuestionSelectionDialog(inputedNumber);
     }
 
     /**
      * Диалог выбора выбранного вопроса.
      */
-    private void selectiedQuestionSelectionDialog(int indexQuestion)
+    private void selectiedQuestionSelectionDialog(int indexQuestion) throws Exception
     {
         print("1 Удалить вопрос");
         print("2 Изменить вопрос");
         print("\n0 Назад к списку вопросов");
+
+        inputSymbol(TestingConst.TWO);
 
         if (inputedSymbol == TestingConst.ONE)
         {
@@ -698,6 +753,7 @@ public class TestingUserDialog
 
         if (inputedSymbol == TestingConst.ZERO)
         {
+            showQuestionsList(test.getIndexTextFromQuestion(questionService));
         }
     }
 
@@ -726,7 +782,7 @@ public class TestingUserDialog
      * Диалог выбора редактировния вопроса.
      * @param indexQuestion - индекс вопроса.
      */
-    private void editQuestionSelectionDialog(int indexQuestion)
+    private void editQuestionSelectionDialog(int indexQuestion) throws Exception
     {
         print("1 Изменить текст вопроса");
         print("2 Изменить сложность вопроса");
@@ -737,6 +793,8 @@ public class TestingUserDialog
         {
             renameQueustionTextDialog(indexQuestion);
         }
+        printErr("Пока нет реализации ):");
+        selectiedQuestionSelectionDialog(indexQuestion);
     }
 
     /**

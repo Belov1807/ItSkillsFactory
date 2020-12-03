@@ -39,7 +39,7 @@ public class TestingTestService implements TestingTestServiceInterface
 
     /**
      * Изменяет название у теста по индексу.
-     * @param index - индекс.
+     * @param index       - индекс.
      * @param newTestName - новое название теста.
      * @throws Exception - выбрасываемое исключение.
      */
@@ -63,7 +63,7 @@ public class TestingTestService implements TestingTestServiceInterface
 
     /**
      * Возвращает имя теста по индексу.
-     * @param  - индекс.
+     * @param - индекс.
      * @return имя теста.
      */
     @Override
@@ -88,7 +88,7 @@ public class TestingTestService implements TestingTestServiceInterface
      */
     private void checkFoundTestName(String testName) throws Exception
     {
-        for (int i = 0; i < getTestsCount(); i ++)
+        for (int i = 0; i < getTestsCount(); i++)
         {
             if (getTestNameAt(i).equals(testName))
             {
@@ -109,20 +109,36 @@ public class TestingTestService implements TestingTestServiceInterface
     }
 
     /**
+     * Возвращает индекс теста по сервису по работе с вопросами.
+     * @param question сервису по работе с вопросами.
+     * @return индекс теста.
+     */
+    @Override
+    public int getIndexTextFromQuestion(TestingQuestionServiceInterface question)
+    {
+        for (int i = 0; i < getTestsCount(); i++)
+        {
+            if (testsList.get(i).getQuestionService().equals(question))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Возвращает максимальное количество баллов за весь тест.
      * @return максимальное количество баллов за весь тест.
      */
     @Override
-    public int getAllScores()
+    public int getAllScoresAt(int index)
     {
         int scores = 0;
-        System.out.println("question.getQuestionsCount() = " + question.getQuestionsCount());
-        for (int i = 0; i < question.getQuestionsCount(); i ++)
-        {
-            scores += question.getScoreQuestionAt(i);
-            System.out.println("scores = " + scores);
-        }
 
+        for (int i = 0; i < testsList.get(index).getQuestionService().getQuestionsCount(); i++)
+        {
+            scores += testsList.get(index).getQuestionService().getScoreQuestionAt(i);
+        }
         return scores;
     }
 }
